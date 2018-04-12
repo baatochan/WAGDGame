@@ -11,7 +11,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity VGADisplay is
-	Port ( PixelClk_25MHz : in  STD_LOGIC;
+	Port ( Clk_50MHz : in  STD_LOGIC;
 		   VGA_R : out  STD_LOGIC;
 		   VGA_G : out  STD_LOGIC;
 		   VGA_B : out  STD_LOGIC;
@@ -24,10 +24,10 @@ architecture Behavioral of VGADisplay is
 	Signal hs_counter : INTEGER;
 begin
 
-	Horizontal_sync : process ( PixelClk_25MHz, hs_counter ) is
+	Horizontal_sync : process ( Clk_50MHz, hs_counter ) is
 	begin
-		if (rising_edge(PixelClk_25MHz)) then
-			if (hs_counter < -48) then
+		if (rising_edge(Clk_50MHz)) then
+			if (hs_counter < -64) then
             VGA_HS <= '0';
          else
             VGA_HS <= '1';
@@ -35,10 +35,10 @@ begin
 		end if;
 	end process;
    
-	Vertical_sync : process ( PixelClk_25MHz, vs_counter ) is
+	Vertical_sync : process ( Clk_50MHz, vs_counter ) is
 	begin
-		if (rising_edge(PixelClk_25MHz)) then
-			if (vs_counter < -29) then
+		if (rising_edge(Clk_50MHz)) then
+			if (vs_counter < -23) then
             VGA_VS <= '0';
          else
             VGA_VS <= '1';
@@ -46,13 +46,13 @@ begin
 		end if;
 	end process;
 
-	Pixel_counters : process ( PixelClk_25MHz, hs_counter ) is
+	Pixel_counters : process ( Clk_50MHz, hs_counter ) is
 	begin
-		if (falling_edge(PixelClk_25MHz)) then
-			if (hs_counter = 654) then
-				hs_counter <= -144;
-				if (vs_counter = 490) then
-					vs_counter <= -31;
+		if (falling_edge(Clk_50MHz)) then
+			if (hs_counter = 855) then
+				hs_counter <= -184;
+				if (vs_counter = 636) then
+					vs_counter <= -29;
 				else
 					vs_counter <= vs_counter + 1;
 				end if;
@@ -76,3 +76,4 @@ begin
 	end process;
 
 end Behavioral;
+
