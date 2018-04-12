@@ -64,7 +64,7 @@ begin
 	
 		Pixel_search : process ( vs_counter, hs_counter ) is
 	begin
-		if (hs_counter = 333 and vs_counter = 222) then
+		if (hs_counter > 333 and hs_counter < 366 and vs_counter > 222 and vs_counter < 255) then
 			VGA_R <= '1';
 			VGA_G <= '0';
 			VGA_B <= '1';
