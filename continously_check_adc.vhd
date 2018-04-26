@@ -32,11 +32,16 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity continously_check_adc is
 	Port ( Clk : in  STD_LOGIC;
 		   Busy : in  STD_LOGIC;
-		   ADCCheck : out STD_LOGIC);
+		   ADCCheck : out STD_LOGIC;
+		   ADCStart: out STD_LOGIC;
+           ADCWord : out STD_LOGIC_VECTOR(7 downto 0));
 end continously_check_adc;
 
 architecture Behavioral of continously_check_adc is
 begin
+	ADCWord <= X"11";
+	ADCStart <= '1', '0' after 100ns;
+	
 	process_1 : process(Clk, Busy)
 	begin
 		if rising_edge(Clk) then
