@@ -7,8 +7,7 @@
     </attr>
     <netlist>
         <signal name="Clk_50MHz" />
-        <signal name="XLXN_7" />
-        <signal name="XLXN_8" />
+        <signal name="Line(52)" />
         <signal name="SPI_MISO" />
         <signal name="AMP_DOUT" />
         <signal name="SPI_MOSI" />
@@ -27,12 +26,18 @@
         <signal name="SF_CE" />
         <signal name="Line(63:0)" />
         <signal name="Line(13:0)" />
-        <signal name="Line(63:14)" />
         <signal name="XLXN_33(7:0)" />
-        <signal name="XLXN_34" />
         <signal name="XLXN_36(7:0)" />
         <signal name="XLXN_38(7:0)" />
         <signal name="XLXN_39" />
+        <signal name="XLXN_44" />
+        <signal name="Line(63:61)" />
+        <signal name="XLXN_46" />
+        <signal name="Line(60)" />
+        <signal name="Line(59:57)" />
+        <signal name="Line(56)" />
+        <signal name="Line(55:53)" />
+        <signal name="Line(51:14)" />
         <port polarity="Input" name="Clk_50MHz" />
         <port polarity="Input" name="SPI_MISO" />
         <port polarity="Input" name="AMP_DOUT" />
@@ -95,7 +100,7 @@
             <line x2="0" y1="-96" y2="-96" x1="64" />
         </blockdef>
         <blockdef name="continously_check_adc">
-            <timestamp>2018-4-26T8:12:33</timestamp>
+            <timestamp>2018-4-26T8:35:42</timestamp>
             <rect width="256" x="64" y="-192" height="192" />
             <line x2="0" y1="-160" y2="-160" x1="64" />
             <line x2="0" y1="-32" y2="-32" x1="64" />
@@ -117,12 +122,12 @@
         </block>
         <block symbolname="ADC_Ctrl" name="XLXI_1">
             <blockpin signalname="Clk_50MHz" name="Clk_Sys" />
-            <blockpin signalname="XLXN_34" name="AMP_WE" />
-            <blockpin signalname="XLXN_7" name="ADC_Start" />
+            <blockpin signalname="Line(56)" name="AMP_WE" />
+            <blockpin signalname="Line(60)" name="ADC_Start" />
             <blockpin signalname="SPI_MISO" name="SPI_MISO" />
             <blockpin signalname="AMP_DOUT" name="AMP_DOUT" />
             <blockpin signalname="XLXN_33(7:0)" name="AMP_DI(7:0)" />
-            <blockpin signalname="XLXN_8" name="Busy" />
+            <blockpin signalname="Line(52)" name="Busy" />
             <blockpin signalname="SPI_MOSI" name="SPI_MOSI" />
             <blockpin signalname="SPI_SCK" name="SPI_SCK" />
             <blockpin signalname="AMP_CS" name="AMP_CS" />
@@ -140,9 +145,9 @@
         </block>
         <block symbolname="continously_check_adc" name="XLXI_5">
             <blockpin signalname="Clk_50MHz" name="Clk" />
-            <blockpin signalname="XLXN_8" name="Busy" />
-            <blockpin signalname="XLXN_34" name="ADCCheck" />
-            <blockpin signalname="XLXN_7" name="ADCStart" />
+            <blockpin signalname="Line(52)" name="Busy" />
+            <blockpin signalname="Line(60)" name="ADCCheck" />
+            <blockpin signalname="Line(56)" name="ADCStart" />
             <blockpin signalname="XLXN_33(7:0)" name="ADCWord(7:0)" />
         </block>
     </netlist>
@@ -180,8 +185,7 @@
         </branch>
         <iomarker fontsize="28" x="1344" y="496" name="SPI_SCK" orien="R0" />
         <branch name="AD_CONV">
-            <wire x2="1328" y1="560" y2="560" x1="1312" />
-            <wire x2="1344" y1="560" y2="560" x1="1328" />
+            <wire x2="1344" y1="560" y2="560" x1="1312" />
         </branch>
         <branch name="AMP_CS">
             <wire x2="1344" y1="624" y2="624" x1="1312" />
@@ -231,20 +235,21 @@
             <wire x2="1584" y1="848" y2="1168" x1="1584" />
             <wire x2="1600" y1="1168" y2="1168" x1="1584" />
             <wire x2="1760" y1="848" y2="848" x1="1584" />
-            <wire x2="1760" y1="560" y2="576" x1="1760" />
-            <wire x2="1760" y1="576" y2="672" x1="1760" />
+            <wire x2="1760" y1="192" y2="224" x1="1760" />
+            <wire x2="1760" y1="224" y2="256" x1="1760" />
+            <wire x2="1760" y1="256" y2="288" x1="1760" />
+            <wire x2="1760" y1="288" y2="320" x1="1760" />
+            <wire x2="1760" y1="320" y2="352" x1="1760" />
+            <wire x2="1760" y1="352" y2="384" x1="1760" />
+            <wire x2="1760" y1="384" y2="640" x1="1760" />
+            <wire x2="1760" y1="640" y2="672" x1="1760" />
             <wire x2="1760" y1="672" y2="848" x1="1760" />
         </branch>
-        <bustap x2="1664" y1="576" y2="576" x1="1760" />
         <bustap x2="1664" y1="672" y2="672" x1="1760" />
         <branch name="Line(13:0)">
             <wire x2="1568" y1="1168" y2="1168" x1="1312" />
             <wire x2="1568" y1="672" y2="1168" x1="1568" />
             <wire x2="1664" y1="672" y2="672" x1="1568" />
-        </branch>
-        <branch name="Line(63:14)">
-            <wire x2="1616" y1="336" y2="576" x1="1616" />
-            <wire x2="1664" y1="576" y2="576" x1="1616" />
         </branch>
         <iomarker fontsize="28" x="1344" y="560" name="AD_CONV" orien="R0" />
         <branch name="XLXN_33(7:0)">
@@ -252,24 +257,51 @@
             <wire x2="832" y1="432" y2="432" x1="816" />
             <wire x2="816" y1="432" y2="464" x1="816" />
         </branch>
-        <branch name="XLXN_34">
-            <wire x2="816" y1="336" y2="336" x1="592" />
-            <wire x2="816" y1="336" y2="368" x1="816" />
-            <wire x2="832" y1="368" y2="368" x1="816" />
-        </branch>
         <instance x="208" y="496" name="XLXI_5" orien="R0">
         </instance>
-        <branch name="XLXN_8">
+        <branch name="Line(52)">
             <wire x2="208" y1="464" y2="464" x1="96" />
             <wire x2="96" y1="464" y2="1376" x1="96" />
             <wire x2="1328" y1="1376" y2="1376" x1="96" />
             <wire x2="1328" y1="1296" y2="1296" x1="1312" />
             <wire x2="1328" y1="1296" y2="1376" x1="1328" />
+            <wire x2="1328" y1="1120" y2="1296" x1="1328" />
+            <wire x2="1648" y1="1120" y2="1120" x1="1328" />
+            <wire x2="1648" y1="384" y2="1120" x1="1648" />
+            <wire x2="1664" y1="384" y2="384" x1="1648" />
         </branch>
-        <branch name="XLXN_7">
-            <wire x2="704" y1="400" y2="400" x1="592" />
-            <wire x2="704" y1="400" y2="528" x1="704" />
+        <bustap x2="1664" y1="224" y2="224" x1="1760" />
+        <bustap x2="1664" y1="256" y2="256" x1="1760" />
+        <bustap x2="1664" y1="288" y2="288" x1="1760" />
+        <bustap x2="1664" y1="320" y2="320" x1="1760" />
+        <bustap x2="1664" y1="352" y2="352" x1="1760" />
+        <bustap x2="1664" y1="384" y2="384" x1="1760" />
+        <branch name="Line(63:61)">
+            <wire x2="1664" y1="224" y2="224" x1="1584" />
+        </branch>
+        <branch name="Line(60)">
+            <wire x2="704" y1="336" y2="336" x1="592" />
+            <wire x2="704" y1="336" y2="528" x1="704" />
             <wire x2="832" y1="528" y2="528" x1="704" />
+            <wire x2="1664" y1="256" y2="256" x1="704" />
+            <wire x2="704" y1="256" y2="336" x1="704" />
+        </branch>
+        <branch name="Line(59:57)">
+            <wire x2="1664" y1="288" y2="288" x1="1584" />
+        </branch>
+        <branch name="Line(56)">
+            <wire x2="688" y1="400" y2="400" x1="592" />
+            <wire x2="1664" y1="320" y2="320" x1="688" />
+            <wire x2="688" y1="320" y2="368" x1="688" />
+            <wire x2="688" y1="368" y2="400" x1="688" />
+            <wire x2="832" y1="368" y2="368" x1="688" />
+        </branch>
+        <branch name="Line(55:53)">
+            <wire x2="1664" y1="352" y2="352" x1="1600" />
+        </branch>
+        <bustap x2="1664" y1="640" y2="640" x1="1760" />
+        <branch name="Line(51:14)">
+            <wire x2="1664" y1="640" y2="640" x1="1600" />
         </branch>
     </sheet>
 </drawing>
