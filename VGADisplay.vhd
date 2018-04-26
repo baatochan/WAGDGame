@@ -16,7 +16,10 @@ entity VGADisplay is
 			VGA_G : out  STD_LOGIC;
 			VGA_B : out  STD_LOGIC;
 			VGA_HS : out  STD_LOGIC;
-			 VGA_VS : out  STD_LOGIC);
+			VGA_VS : out  STD_LOGIC;
+			AMP_WE : out STD_LOGIC;
+			AMP_DI : out STD_LOGIC_VECTOR(7 downto 0);
+			ADC_Start : out STD_LOGIC);
 end VGADisplay;
 
 architecture Behavioral of VGADisplay is
@@ -46,7 +49,7 @@ begin
 		end if;
 	end process;
 
-	Pixel_counters : process ( Clk_50MHz, hs_counter ) is
+	Pixel_counters : process ( Clk_50MHz, hs_counter, vs_counter ) is
 	begin
 		if (falling_edge(Clk_50MHz)) then
 			if (hs_counter = 855) then
@@ -58,6 +61,23 @@ begin
 				end if;
 			else
 				hs_counter <= hs_counter + 1;
+			end if;
+		end if;
+	end process;
+	
+	ADC_Support : process ( Clk_50MHz, hs_counter, vs_counter ) is
+	begin
+		if (rising_edge(Clk_50MHz)) then
+			if (hs_counter = 0 and vs_counter = 0) then
+				AMP_DI <= X"11";
+				AMP_WE <= '1';
+			else
+				if (hs_counter = 800 and vs_counter = 600) then
+					ADC_Start <= '1';
+				else
+					ADC_Start <= '0';
+					AMP_WE <= '0';
+				end if;
 			end if;
 		end if;
 	end process;
