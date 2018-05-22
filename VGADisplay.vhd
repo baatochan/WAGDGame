@@ -12,7 +12,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity VGADisplay is
 	Port ( Clk_50MHz : in  STD_LOGIC;
-			POSITION_IN : in STD_LOGIC_VECTOR(13 downto 0);
+			POSITION_IN : in signed(13 downto 0);
 			VGA_R : out  STD_LOGIC;
 			VGA_G : out  STD_LOGIC;
 			VGA_B : out  STD_LOGIC;
@@ -26,6 +26,7 @@ end VGADisplay;
 architecture Behavioral of VGADisplay is
 	Signal vs_counter : INTEGER;
 	Signal hs_counter : INTEGER;
+	Signal box1Position : INTEGER := 400;
 begin
 
 	Horizontal_sync : process ( Clk_50MHz, hs_counter ) is
@@ -83,9 +84,9 @@ begin
 		end if;
 	end process;
 
-	Pixel_search : process ( vs_counter, hs_counter ) is
+	PrintPlayer : process ( vs_counter, hs_counter ) is
 	begin
-		if (hs_counter > 416 and hs_counter < 458 and vs_counter > 278 and vs_counter < 320) then
+		if (hs_counter > box1Position - 20 and hs_counter < box1Position + 20 and vs_counter > 490 and vs_counter < 510) then
 			VGA_R <= '1';
 			VGA_G <= '0';
 			VGA_B <= '1';

@@ -38,7 +38,6 @@
         <signal name="LCD_RW" />
         <signal name="LCD_D(3:0)" />
         <signal name="SF_CE" />
-        <signal name="XLXN_52(63:0)" />
         <port polarity="Input" name="Clk_50MHz" />
         <port polarity="Input" name="SPI_MISO" />
         <port polarity="Input" name="AMP_DOUT" />
@@ -106,20 +105,20 @@
             <line x2="0" y1="-96" y2="-96" x1="64" />
         </blockdef>
         <blockdef name="VGADisplay">
-            <timestamp>2018-5-21T12:56:44</timestamp>
-            <rect width="64" x="0" y="20" height="24" />
-            <line x2="0" y1="32" y2="32" x1="64" />
+            <timestamp>2018-5-22T9:44:14</timestamp>
+            <rect width="352" x="64" y="-512" height="512" />
             <line x2="0" y1="-480" y2="-480" x1="64" />
-            <line x2="384" y1="-480" y2="-480" x1="320" />
-            <line x2="384" y1="-416" y2="-416" x1="320" />
-            <line x2="384" y1="-352" y2="-352" x1="320" />
-            <line x2="384" y1="-288" y2="-288" x1="320" />
-            <line x2="384" y1="-224" y2="-224" x1="320" />
-            <line x2="384" y1="-160" y2="-160" x1="320" />
-            <line x2="384" y1="-96" y2="-96" x1="320" />
-            <rect width="64" x="320" y="-44" height="24" />
-            <line x2="384" y1="-32" y2="-32" x1="320" />
-            <rect width="256" x="64" y="-512" height="576" />
+            <rect width="64" x="0" y="-44" height="24" />
+            <line x2="0" y1="-32" y2="-32" x1="64" />
+            <line x2="480" y1="-480" y2="-480" x1="416" />
+            <line x2="480" y1="-416" y2="-416" x1="416" />
+            <line x2="480" y1="-352" y2="-352" x1="416" />
+            <line x2="480" y1="-288" y2="-288" x1="416" />
+            <line x2="480" y1="-224" y2="-224" x1="416" />
+            <line x2="480" y1="-160" y2="-160" x1="416" />
+            <line x2="480" y1="-96" y2="-96" x1="416" />
+            <rect width="64" x="416" y="-44" height="24" />
+            <line x2="480" y1="-32" y2="-32" x1="416" />
         </blockdef>
         <block symbolname="ADC_Ctrl" name="XLXI_1">
             <blockpin signalname="Clk_50MHz" name="Clk_Sys" />
@@ -146,6 +145,7 @@
         </block>
         <block symbolname="VGADisplay" name="XLXI_6">
             <blockpin signalname="Clk_50MHz" name="Clk_50MHz" />
+            <blockpin signalname="Line(13:0)" name="POSITION_IN(13:0)" />
             <blockpin signalname="VGA_R" name="VGA_R" />
             <blockpin signalname="VGA_G" name="VGA_G" />
             <blockpin signalname="VGA_B" name="VGA_B" />
@@ -154,7 +154,6 @@
             <blockpin signalname="Line(56)" name="AMP_WE" />
             <blockpin signalname="Line(60)" name="ADC_Start" />
             <blockpin signalname="XLXN_33(7:0)" name="AMP_DI(7:0)" />
-            <blockpin signalname="Line(13:0)" name="POSITION_IN(13:0)" />
         </block>
         <block symbolname="LCD1x64" name="XLXI_2">
             <blockpin signalname="Clk_50MHz" name="Clk_50MHz" />
@@ -232,9 +231,9 @@
             <wire x2="1664" y1="672" y2="672" x1="1568" />
             <wire x2="1568" y1="672" y2="976" x1="1568" />
             <wire x2="1568" y1="976" y2="1168" x1="1568" />
-            <wire x2="1888" y1="976" y2="976" x1="1568" />
-            <wire x2="1888" y1="752" y2="976" x1="1888" />
-            <wire x2="2224" y1="752" y2="752" x1="1888" />
+            <wire x2="1840" y1="976" y2="976" x1="1568" />
+            <wire x2="1840" y1="688" y2="976" x1="1840" />
+            <wire x2="2128" y1="688" y2="688" x1="1840" />
         </branch>
         <iomarker fontsize="28" x="1344" y="560" name="AD_CONV" orien="R0" />
         <branch name="Line(52)">
@@ -268,8 +267,7 @@
         <iomarker fontsize="28" x="2640" y="368" name="VGA_B" orien="R0" />
         <iomarker fontsize="28" x="2640" y="432" name="VGA_HS" orien="R0" />
         <branch name="VGA_VS">
-            <wire x2="2624" y1="496" y2="496" x1="2608" />
-            <wire x2="2640" y1="496" y2="496" x1="2624" />
+            <wire x2="2640" y1="496" y2="496" x1="2608" />
         </branch>
         <iomarker fontsize="28" x="2640" y="496" name="VGA_VS" orien="R0" />
         <instance x="1744" y="1456" name="XLXI_2" orien="R0">
@@ -298,15 +296,15 @@
         <branch name="Clk_50MHz">
             <wire x2="816" y1="1424" y2="1424" x1="480" />
             <wire x2="1744" y1="1424" y2="1424" x1="816" />
-            <wire x2="816" y1="1424" y2="1440" x1="816" />
-            <wire x2="736" y1="128" y2="1440" x1="736" />
-            <wire x2="816" y1="1440" y2="1440" x1="736" />
+            <wire x2="736" y1="128" y2="1408" x1="736" />
+            <wire x2="816" y1="1408" y2="1408" x1="736" />
+            <wire x2="816" y1="1408" y2="1424" x1="816" />
             <wire x2="1824" y1="128" y2="128" x1="736" />
             <wire x2="1824" y1="128" y2="240" x1="1824" />
-            <wire x2="2224" y1="240" y2="240" x1="1824" />
+            <wire x2="2128" y1="240" y2="240" x1="1824" />
             <wire x2="816" y1="1232" y2="1296" x1="816" />
             <wire x2="832" y1="1296" y2="1296" x1="816" />
-            <wire x2="816" y1="1296" y2="1424" x1="816" />
+            <wire x2="816" y1="1296" y2="1408" x1="816" />
             <wire x2="832" y1="1232" y2="1232" x1="816" />
         </branch>
         <branch name="Line(60)">
@@ -319,11 +317,9 @@
             <wire x2="2688" y1="624" y2="1536" x1="2688" />
         </branch>
         <branch name="XLXN_33(7:0)">
-            <wire x2="816" y1="464" y2="464" x1="800" />
-            <wire x2="800" y1="464" y2="1520" x1="800" />
+            <wire x2="800" y1="432" y2="1520" x1="800" />
             <wire x2="2672" y1="1520" y2="1520" x1="800" />
-            <wire x2="832" y1="432" y2="432" x1="816" />
-            <wire x2="816" y1="432" y2="464" x1="816" />
+            <wire x2="832" y1="432" y2="432" x1="800" />
             <wire x2="2672" y1="688" y2="688" x1="2608" />
             <wire x2="2672" y1="688" y2="1520" x1="2672" />
         </branch>
@@ -355,7 +351,7 @@
             <wire x2="2624" y1="240" y2="240" x1="2608" />
             <wire x2="2640" y1="240" y2="240" x1="2624" />
         </branch>
-        <instance x="2224" y="720" name="XLXI_6" orien="R0">
+        <instance x="2128" y="720" name="XLXI_6" orien="R0">
         </instance>
     </sheet>
 </drawing>
