@@ -26,7 +26,7 @@ end VGADisplay;
 architecture Behavioral of VGADisplay is
 	Signal vs_counter : INTEGER;
 	Signal hs_counter : INTEGER;
-	Signal box1Position : INTEGER := 400;
+	Signal playerPosition : INTEGER := 400;
 begin
 
 	Horizontal_sync : process ( Clk_50MHz, hs_counter ) is
@@ -86,7 +86,7 @@ begin
 
 	PrintPlayer : process ( vs_counter, hs_counter ) is
 	begin
-		if (hs_counter > box1Position - 20 and hs_counter < box1Position + 20 and vs_counter > 490 and vs_counter < 510) then
+		if (hs_counter > playerPosition - 20 and hs_counter < playerPosition + 20 and vs_counter > 490 and vs_counter < 510) then
 			VGA_R <= '1';
 			VGA_G <= '0';
 			VGA_B <= '1';
@@ -103,7 +103,7 @@ begin
 		temp := to_integer( POSITION_IN );
 		temp := temp / 64;
 		temp := temp * 3;
-		box1Position <= 400 + temp;
+		playerPosition <= 400 + temp;
 	end process;
 
 end Behavioral;
