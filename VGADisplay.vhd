@@ -96,5 +96,14 @@ begin
 			VGA_B <= '0';
 		end if;
 	end process;
+	
+	CalculatePlayerPos : process ( POSITION_IN ) is
+		variable temp : INTEGER;
+	begin
+		temp := to_integer( POSITION_IN );
+		temp := temp / 64;
+		temp := temp * 3;
+		box1Position <= 400 + temp;
+	end process;
 
 end Behavioral;
