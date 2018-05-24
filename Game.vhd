@@ -10,7 +10,7 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity VGADisplay is
+entity Game is
 	Port ( Clk_50MHz   : in   STD_LOGIC;
 	       POSITION_IN : in   signed (13 downto 0);
 		   RESUME_BTN  : in   STD_LOGIC;
@@ -22,9 +22,9 @@ entity VGADisplay is
 	       AMP_WE      : out  STD_LOGIC;
 	       AMP_DI      : out  STD_LOGIC_VECTOR (7 downto 0);
 	       ADC_Start   : out  STD_LOGIC );
-end VGADisplay;
+end Game;
 
-architecture Behavioral of VGADisplay is
+architecture Behavioral of Game is
 	Signal vs_counter : INTEGER;
 	Signal hs_counter : INTEGER;
 

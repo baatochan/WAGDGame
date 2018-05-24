@@ -6,13 +6,6 @@
         <trait edittrait="all:0" />
     </attr>
     <netlist>
-        <signal name="XLXN_49" />
-        <signal name="XLXN_62" />
-        <signal name="XLXN_65(7:0)" />
-        <signal name="XLXN_77(13:0)" />
-        <signal name="XLXN_79" />
-        <signal name="XLXN_92" />
-        <signal name="XLXN_100" />
         <signal name="SPI_MISO" />
         <signal name="AMP_DOUT" />
         <signal name="SPI_MOSI" />
@@ -25,24 +18,16 @@
         <signal name="SPI_SS_B" />
         <signal name="FPGA_INIT_B" />
         <signal name="Line(13:0)" />
-        <signal name="XLXN_114" />
         <signal name="Clk_50MHz" />
         <signal name="XLXN_33(7:0)" />
         <signal name="VGA_VS" />
         <signal name="VGA_HS" />
         <signal name="VGA_B" />
         <signal name="VGA_G" />
-        <signal name="VGA_R" />
-        <signal name="XLXN_122" />
-        <signal name="XLXN_124" />
         <signal name="Btn_0" />
-        <signal name="XLXN_126" />
-        <signal name="XLXN_127" />
-        <signal name="XLXN_128" />
-        <signal name="XLXN_129" />
-        <signal name="XLXN_130" />
         <signal name="XLXN_131" />
         <signal name="XLXN_132" />
+        <signal name="VGA_R" />
         <port polarity="Input" name="SPI_MISO" />
         <port polarity="Input" name="AMP_DOUT" />
         <port polarity="Output" name="SPI_MOSI" />
@@ -59,8 +44,8 @@
         <port polarity="Output" name="VGA_HS" />
         <port polarity="Output" name="VGA_B" />
         <port polarity="Output" name="VGA_G" />
-        <port polarity="Output" name="VGA_R" />
         <port polarity="Input" name="Btn_0" />
+        <port polarity="Output" name="VGA_R" />
         <blockdef name="ADC_Ctrl">
             <timestamp>2018-4-26T6:46:41</timestamp>
             <line x2="0" y1="-800" y2="-800" x1="64" />
@@ -89,8 +74,8 @@
             <line x2="0" y1="0" y2="0" x1="64" />
             <line x2="0" y1="64" y2="64" x1="64" />
         </blockdef>
-        <blockdef name="VGADisplay">
-            <timestamp>2018-5-24T21:20:24</timestamp>
+        <blockdef name="Game">
+            <timestamp>2018-5-24T21:51:40</timestamp>
             <rect width="352" x="64" y="-512" height="512" />
             <line x2="0" y1="-480" y2="-480" x1="64" />
             <line x2="0" y1="-256" y2="-256" x1="64" />
@@ -129,7 +114,7 @@
             <blockpin name="Reset" />
             <blockpin signalname="Clk_50MHz" name="Clk_50MHz" />
         </block>
-        <block symbolname="VGADisplay" name="XLXI_6">
+        <block symbolname="Game" name="XLXI_7">
             <blockpin signalname="Clk_50MHz" name="Clk_50MHz" />
             <blockpin signalname="Btn_0" name="RESUME_BTN" />
             <blockpin signalname="Line(13:0)" name="POSITION_IN(13:0)" />
@@ -178,7 +163,8 @@
             <wire x2="1168" y1="1040" y2="1040" x1="1136" />
         </branch>
         <branch name="Line(13:0)">
-            <wire x2="1168" y1="1136" y2="1136" x1="1136" />
+            <wire x2="1152" y1="1136" y2="1136" x1="1136" />
+            <wire x2="1168" y1="1136" y2="1136" x1="1152" />
             <wire x2="1168" y1="1136" y2="1392" x1="1168" />
             <wire x2="1536" y1="1392" y2="1392" x1="1168" />
         </branch>
@@ -193,31 +179,31 @@
             <wire x2="1472" y1="944" y2="1328" x1="1472" />
         </branch>
         <branch name="XLXN_33(7:0)">
-            <wire x2="656" y1="400" y2="400" x1="608" />
             <wire x2="608" y1="400" y2="1456" x1="608" />
             <wire x2="2048" y1="1456" y2="1456" x1="608" />
+            <wire x2="640" y1="400" y2="400" x1="608" />
+            <wire x2="656" y1="400" y2="400" x1="640" />
             <wire x2="2048" y1="1392" y2="1392" x1="2016" />
             <wire x2="2048" y1="1392" y2="1456" x1="2048" />
         </branch>
         <instance x="656" y="1136" name="XLXI_1" orien="R0">
         </instance>
         <branch name="VGA_VS">
-            <wire x2="2048" y1="1200" y2="1200" x1="2016" />
+            <wire x2="2032" y1="1200" y2="1200" x1="2016" />
+            <wire x2="2048" y1="1200" y2="1200" x1="2032" />
         </branch>
         <branch name="VGA_HS">
-            <wire x2="2048" y1="1136" y2="1136" x1="2016" />
+            <wire x2="2032" y1="1136" y2="1136" x1="2016" />
+            <wire x2="2048" y1="1136" y2="1136" x1="2032" />
         </branch>
         <branch name="VGA_B">
-            <wire x2="2048" y1="1072" y2="1072" x1="2016" />
+            <wire x2="2032" y1="1072" y2="1072" x1="2016" />
+            <wire x2="2048" y1="1072" y2="1072" x1="2032" />
         </branch>
         <branch name="VGA_G">
-            <wire x2="2048" y1="1008" y2="1008" x1="2016" />
+            <wire x2="2032" y1="1008" y2="1008" x1="2016" />
+            <wire x2="2048" y1="1008" y2="1008" x1="2032" />
         </branch>
-        <branch name="VGA_R">
-            <wire x2="2048" y1="944" y2="944" x1="2016" />
-        </branch>
-        <instance x="1536" y="1424" name="XLXI_6" orien="R0">
-        </instance>
         <iomarker fontsize="28" x="1168" y="336" name="SPI_MISO" orien="R0" />
         <iomarker fontsize="28" x="1168" y="656" name="AMP_DOUT" orien="R0" />
         <iomarker fontsize="28" x="1168" y="400" name="SPI_MOSI" orien="R0" />
@@ -229,13 +215,12 @@
         <iomarker fontsize="28" x="1168" y="912" name="SPI_SS_B" orien="R0" />
         <iomarker fontsize="28" x="1168" y="1040" name="FPGA_INIT_B" orien="R0" />
         <iomarker fontsize="28" x="1168" y="528" name="AD_CONV" orien="R0" />
-        <iomarker fontsize="28" x="2048" y="944" name="VGA_R" orien="R0" />
-        <iomarker fontsize="28" x="2048" y="1008" name="VGA_G" orien="R0" />
         <iomarker fontsize="28" x="2048" y="1072" name="VGA_B" orien="R0" />
         <iomarker fontsize="28" x="2048" y="1136" name="VGA_HS" orien="R0" />
         <iomarker fontsize="28" x="2048" y="1200" name="VGA_VS" orien="R0" />
         <branch name="Btn_0">
-            <wire x2="512" y1="1264" y2="1264" x1="480" />
+            <wire x2="496" y1="1264" y2="1264" x1="480" />
+            <wire x2="512" y1="1264" y2="1264" x1="496" />
             <wire x2="512" y1="1264" y2="1360" x1="512" />
             <wire x2="1504" y1="1360" y2="1360" x1="512" />
             <wire x2="1504" y1="1168" y2="1360" x1="1504" />
@@ -246,16 +231,25 @@
         <branch name="XLXN_131">
             <wire x2="544" y1="336" y2="1520" x1="544" />
             <wire x2="2112" y1="1520" y2="1520" x1="544" />
-            <wire x2="656" y1="336" y2="336" x1="544" />
+            <wire x2="640" y1="336" y2="336" x1="544" />
+            <wire x2="656" y1="336" y2="336" x1="640" />
             <wire x2="2112" y1="1264" y2="1264" x1="2016" />
             <wire x2="2112" y1="1264" y2="1520" x1="2112" />
         </branch>
         <branch name="XLXN_132">
-            <wire x2="656" y1="496" y2="496" x1="576" />
             <wire x2="576" y1="496" y2="1488" x1="576" />
             <wire x2="2080" y1="1488" y2="1488" x1="576" />
+            <wire x2="640" y1="496" y2="496" x1="576" />
+            <wire x2="656" y1="496" y2="496" x1="640" />
             <wire x2="2080" y1="1328" y2="1328" x1="2016" />
             <wire x2="2080" y1="1328" y2="1488" x1="2080" />
         </branch>
+        <instance x="1536" y="1424" name="XLXI_7" orien="R0">
+        </instance>
+        <iomarker fontsize="28" x="2048" y="1008" name="VGA_G" orien="R0" />
+        <branch name="VGA_R">
+            <wire x2="2048" y1="944" y2="944" x1="2016" />
+        </branch>
+        <iomarker fontsize="28" x="2048" y="944" name="VGA_R" orien="R0" />
     </sheet>
 </drawing>
