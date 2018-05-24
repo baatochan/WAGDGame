@@ -29,8 +29,9 @@ architecture Behavioral of VGADisplay is
 	Signal playerPosition : INTEGER := 400;
 
 	type Point is array (1 downto 0) of INTEGER;
+	type BombArray is array (4 downto 0) of Point;
 
-	Signal bomb1Position : Point := (250, 0);
+	Signal bombsPosition : BombArray := ((50, -850), (200, -650), (400, -450), (600, -250), (750, -50)); -- -50 by bomby pojawialy sie po chwili od wlaczenia gry
 
 	Signal rand800 : unsigned(9 downto 0);
 begin
@@ -90,7 +91,7 @@ begin
 		end if;
 	end process;
 
-	PrintPlayer : process ( vs_counter, hs_counter, playerPosition, bomb1Position ) is
+	PrintPlayer : process ( vs_counter, hs_counter, playerPosition, bombsPosition ) is
 	begin
 	if ( rising_edge(Clk_50MHz) ) then
 		if ( hs_counter > 0 and hs_counter < 799 and vs_counter > 0 and vs_counter < 599 ) then
@@ -99,14 +100,38 @@ begin
 				VGA_G <= '0';
 				VGA_B <= '1';
 			else
-				if ( hs_counter > bomb1Position(1) - 5 and hs_counter < bomb1Position(1) + 5 and vs_counter > bomb1Position(0) - 10 and vs_counter < bomb1Position(0) + 10 ) then
+				if ( hs_counter > bombsPosition(0)(1) - 5 and hs_counter < bombsPosition(0)(1) + 5 and vs_counter > bombsPosition(0)(0) - 10 and vs_counter < bombsPosition(0)(0) + 10 ) then
 					VGA_R <= '0';
 					VGA_G <= '1';
 					VGA_B <= '0';
 				else
-					VGA_R <= '0';
-					VGA_G <= '0';
-					VGA_B <= '0';
+					if ( hs_counter > bombsPosition(1)(1) - 5 and hs_counter < bombsPosition(1)(1) + 5 and vs_counter > bombsPosition(1)(0) - 10 and vs_counter < bombsPosition(1)(0) + 10 ) then
+						VGA_R <= '0';
+						VGA_G <= '1';
+						VGA_B <= '0';
+					else
+						if ( hs_counter > bombsPosition(2)(1) - 5 and hs_counter < bombsPosition(2)(1) + 5 and vs_counter > bombsPosition(2)(0) - 10 and vs_counter < bombsPosition(2)(0) + 10 ) then
+							VGA_R <= '0';
+							VGA_G <= '1';
+							VGA_B <= '0';
+						else
+							if ( hs_counter > bombsPosition(3)(1) - 5 and hs_counter < bombsPosition(3)(1) + 5 and vs_counter > bombsPosition(3)(0) - 10 and vs_counter < bombsPosition(3)(0) + 10 ) then
+								VGA_R <= '0';
+								VGA_G <= '1';
+								VGA_B <= '0';
+							else
+								if ( hs_counter > bombsPosition(4)(1) - 5 and hs_counter < bombsPosition(4)(1) + 5 and vs_counter > bombsPosition(4)(0) - 10 and vs_counter < bombsPosition(4)(0) + 10 ) then
+									VGA_R <= '0';
+									VGA_G <= '1';
+									VGA_B <= '0';
+								else
+									VGA_R <= '0';
+									VGA_G <= '0';
+									VGA_B <= '0';
+								end if;
+							end if;
+						end if;
+					end if;
 				end if;
 			end if;
 		else
@@ -128,14 +153,46 @@ begin
 		end if;
 	end process;
 
-	MoveBombs : process ( hs_counter, vs_counter, bomb1Position ) is
+	MoveBombs : process ( hs_counter, vs_counter, bombsPosition ) is
 	begin
 		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
-			if ( bomb1Position(0) >= 700 ) then --cause why not
-				bomb1Position(1) <= to_integer( rand800 );
-				bomb1Position(0) <= 0;
+			if ( bombsPosition(0)(0) >= 650 ) then --despawn below the screen
+				bombsPosition(0)(1) <= to_integer( rand800 );
+				bombsPosition(0)(0) <= -12; --spawn above screen
 			else
-				bomb1Position(0) <= bomb1Position(0) + 5;
+				bombsPosition(0)(0) <= bombsPosition(0)(0) + 7;
+			end if;
+		end if;
+		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
+			if ( bombsPosition(1)(0) >= 650 ) then --despawn below the screen
+				bombsPosition(1)(1) <= to_integer( rand800 );
+				bombsPosition(1)(0) <= -12; --spawn above screen
+			else
+				bombsPosition(1)(0) <= bombsPosition(1)(0) + 7;
+			end if;
+		end if;
+		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
+			if ( bombsPosition(2)(0) >= 650 ) then --despawn below the screen
+				bombsPosition(2)(1) <= to_integer( rand800 );
+				bombsPosition(2)(0) <= -12; --spawn above screen
+			else
+				bombsPosition(2)(0) <= bombsPosition(2)(0) + 7;
+			end if;
+		end if;
+		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
+			if ( bombsPosition(3)(0) >= 650 ) then --despawn below the screen
+				bombsPosition(3)(1) <= to_integer( rand800 );
+				bombsPosition(3)(0) <= -12; --spawn above screen
+			else
+				bombsPosition(3)(0) <= bombsPosition(3)(0) + 7;
+			end if;
+		end if;
+		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
+			if ( bombsPosition(4)(0) >= 650 ) then --despawn below the screen
+				bombsPosition(4)(1) <= to_integer( rand800 );
+				bombsPosition(4)(0) <= -12; --spawn above screen
+			else
+				bombsPosition(4)(0) <= bombsPosition(4)(0) + 7;
 			end if;
 		end if;
 	end process;
@@ -144,7 +201,7 @@ begin
 	begin
 		if (rising_edge(Clk_50MHz)) then
 			if (rand800 < 800) then
-				rand800 <= rand800 + 1 + unsigned(POSITION_IN(1 downto 0)); -- przesunac generacje na troszke dalsze miejsce bo nastepuja skoki
+				rand800 <= rand800 + 1 + unsigned(POSITION_IN(1 downto 0));
 			else
 				rand800 <= (others => '0');
 			end if;
