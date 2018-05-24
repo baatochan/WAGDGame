@@ -131,6 +131,12 @@ begin
 				VGA_R <= '0';
 				VGA_G <= '1';
 				VGA_B <= '0';
+				VGA_B <= '0';
+			elsif ( colision = '1' ) then
+				-- print red game over background
+				VGA_R <= '1';
+				VGA_G <= '0';
+				VGA_B <= '0';
 			else
 				-- print black background
 				VGA_R <= '0';
@@ -149,7 +155,7 @@ begin
 	CalculatePlayerPos : process ( POSITION_IN ) is
 		variable temp : INTEGER;
 	begin
-		if ( rising_edge(Clk_50MHz) ) then
+		if ( rising_edge(Clk_50MHz) and colision = '0' ) then
 			temp := to_integer( POSITION_IN );
 			temp := temp / 64;
 			temp := temp * 3;
@@ -160,49 +166,51 @@ begin
 
 	CalculateBombsPos : process ( hs_counter, vs_counter, bombsPosition ) is
 	begin
-		if ( rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636 ) then
-			if ( bombsPosition(0)(0) >= 650 ) then --despawn below the screen
-				bombsPosition(0)(1) <= to_integer( rand800 );
-				bombsPosition(0)(0) <= -12; --spawn above screen
-			else
-				--move 7 pixels down every frame
-				bombsPosition(0)(0) <= bombsPosition(0)(0) + 7;
+		if ( rising_edge(Clk_50MHz) and colision = '0' ) then
+			if ( hs_counter = 855 and vs_counter = 636 ) then
+				if ( bombsPosition(0)(0) >= 650 ) then --despawn below the screen
+					bombsPosition(0)(1) <= to_integer( rand800 );
+					bombsPosition(0)(0) <= -12; --spawn above screen
+				else
+					--move 7 pixels down every frame
+					bombsPosition(0)(0) <= bombsPosition(0)(0) + 7;
+				end if;
 			end if;
-		end if;
-		if ( rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636 ) then
-			if ( bombsPosition(1)(0) >= 650 ) then --despawn below the screen
-				bombsPosition(1)(1) <= to_integer( rand800 );
-				bombsPosition(1)(0) <= -12; --spawn above screen
-			else
-				--move 7 pixels down every frame
-				bombsPosition(1)(0) <= bombsPosition(1)(0) + 7;
+			if ( hs_counter = 855 and vs_counter = 636 ) then
+				if ( bombsPosition(1)(0) >= 650 ) then --despawn below the screen
+					bombsPosition(1)(1) <= to_integer( rand800 );
+					bombsPosition(1)(0) <= -12; --spawn above screen
+				else
+					--move 7 pixels down every frame
+					bombsPosition(1)(0) <= bombsPosition(1)(0) + 7;
+				end if;
 			end if;
-		end if;
-		if ( rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636 ) then
-			if ( bombsPosition(2)(0) >= 650 ) then --despawn below the screen
-				bombsPosition(2)(1) <= to_integer( rand800 );
-				bombsPosition(2)(0) <= -12; --spawn above screen
-			else
-				--move 7 pixels down every frame
-				bombsPosition(2)(0) <= bombsPosition(2)(0) + 7;
+			if ( hs_counter = 855 and vs_counter = 636 ) then
+				if ( bombsPosition(2)(0) >= 650 ) then --despawn below the screen
+					bombsPosition(2)(1) <= to_integer( rand800 );
+					bombsPosition(2)(0) <= -12; --spawn above screen
+				else
+					--move 7 pixels down every frame
+					bombsPosition(2)(0) <= bombsPosition(2)(0) + 7;
+				end if;
 			end if;
-		end if;
-		if ( rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636 ) then
-			if ( bombsPosition(3)(0) >= 650 ) then --despawn below the screen
-				bombsPosition(3)(1) <= to_integer( rand800 );
-				bombsPosition(3)(0) <= -12; --spawn above screen
-			else
-				--move 7 pixels down every frame
-				bombsPosition(3)(0) <= bombsPosition(3)(0) + 7;
+			if ( hs_counter = 855 and vs_counter = 636 ) then
+				if ( bombsPosition(3)(0) >= 650 ) then --despawn below the screen
+					bombsPosition(3)(1) <= to_integer( rand800 );
+					bombsPosition(3)(0) <= -12; --spawn above screen
+				else
+					--move 7 pixels down every frame
+					bombsPosition(3)(0) <= bombsPosition(3)(0) + 7;
+				end if;
 			end if;
-		end if;
-		if ( rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636 ) then
-			if ( bombsPosition(4)(0) >= 650 ) then --despawn below the screen
-				bombsPosition(4)(0) <= -12; --spawn above screen
-				bombsPosition(4)(1) <= to_integer( rand800 );
-			else
-				--move 7 pixels down every frame
-				bombsPosition(4)(0) <= bombsPosition(4)(0) + 7;
+			if ( hs_counter = 855 and vs_counter = 636 ) then
+				if ( bombsPosition(4)(0) >= 650 ) then --despawn below the screen
+					bombsPosition(4)(0) <= -12; --spawn above screen
+					bombsPosition(4)(1) <= to_integer( rand800 );
+				else
+					--move 7 pixels down every frame
+					bombsPosition(4)(0) <= bombsPosition(4)(0) + 7;
+				end if;
 			end if;
 		end if;
 	end process;
@@ -223,19 +231,14 @@ begin
 		if ( rising_edge( Clk_50MHz ) and hs_counter = 801 and vs_counter = 601 ) then
 			if ( abs( playerPositionX - bombsPosition(0)(1) ) < 25 and abs( 500 - bombsPosition(0)(0) ) < 20 ) then
 				colision <= '1';
-				LED1 <= '1';
 			elsif ( abs( playerPositionX - bombsPosition(1)(1) ) < 25 and abs( 500 - bombsPosition(1)(0) ) < 20 ) then
 				colision <= '1';
-				LED1 <= '1';
 			elsif ( abs( playerPositionX - bombsPosition(2)(1) ) < 25 and abs( 500 - bombsPosition(2)(0) ) < 20 ) then
 				colision <= '1';
-				LED1 <= '1';
 			elsif ( abs( playerPositionX - bombsPosition(3)(1) ) < 25 and abs( 500 - bombsPosition(3)(0) ) < 20 ) then
 				colision <= '1';
-				LED1 <= '1';
 			elsif ( abs( playerPositionX - bombsPosition(4)(1) ) < 25 and abs( 500 - bombsPosition(4)(0) ) < 20 ) then
 				colision <= '1';
-				LED1 <= '1';
 			end if;
 		end if;
 	end process;
