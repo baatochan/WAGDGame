@@ -38,6 +38,7 @@
         <signal name="LCD_RW" />
         <signal name="LCD_D(3:0)" />
         <signal name="SF_CE" />
+        <signal name="led0" />
         <port polarity="Input" name="Clk_50MHz" />
         <port polarity="Input" name="SPI_MISO" />
         <port polarity="Input" name="AMP_DOUT" />
@@ -60,6 +61,7 @@
         <port polarity="Output" name="LCD_RW" />
         <port polarity="BiDirectional" name="LCD_D(3:0)" />
         <port polarity="Output" name="SF_CE" />
+        <port polarity="Output" name="led0" />
         <blockdef name="ADC_Ctrl">
             <timestamp>2018-4-26T6:46:41</timestamp>
             <line x2="0" y1="-800" y2="-800" x1="64" />
@@ -105,8 +107,8 @@
             <line x2="0" y1="-96" y2="-96" x1="64" />
         </blockdef>
         <blockdef name="VGADisplay">
-            <timestamp>2018-5-22T9:44:14</timestamp>
-            <rect width="352" x="64" y="-512" height="512" />
+            <timestamp>2018-5-24T9:8:4</timestamp>
+            <line x2="480" y1="32" y2="32" x1="416" />
             <line x2="0" y1="-480" y2="-480" x1="64" />
             <rect width="64" x="0" y="-44" height="24" />
             <line x2="0" y1="-32" y2="-32" x1="64" />
@@ -119,6 +121,7 @@
             <line x2="480" y1="-96" y2="-96" x1="416" />
             <rect width="64" x="416" y="-44" height="24" />
             <line x2="480" y1="-32" y2="-32" x1="416" />
+            <rect width="352" x="64" y="-512" height="576" />
         </blockdef>
         <block symbolname="ADC_Ctrl" name="XLXI_1">
             <blockpin signalname="Clk_50MHz" name="Clk_Sys" />
@@ -153,6 +156,7 @@
             <blockpin signalname="VGA_VS" name="VGA_VS" />
             <blockpin signalname="Line(56)" name="AMP_WE" />
             <blockpin signalname="Line(60)" name="ADC_Start" />
+            <blockpin signalname="led0" name="LED1" />
             <blockpin signalname="XLXN_33(7:0)" name="AMP_DI(7:0)" />
         </block>
         <block symbolname="LCD1x64" name="XLXI_2">
@@ -267,7 +271,8 @@
         <iomarker fontsize="28" x="2640" y="368" name="VGA_B" orien="R0" />
         <iomarker fontsize="28" x="2640" y="432" name="VGA_HS" orien="R0" />
         <branch name="VGA_VS">
-            <wire x2="2640" y1="496" y2="496" x1="2608" />
+            <wire x2="2624" y1="496" y2="496" x1="2608" />
+            <wire x2="2640" y1="496" y2="496" x1="2624" />
         </branch>
         <iomarker fontsize="28" x="2640" y="496" name="VGA_VS" orien="R0" />
         <instance x="1744" y="1456" name="XLXI_2" orien="R0">
@@ -317,9 +322,10 @@
             <wire x2="2688" y1="624" y2="1536" x1="2688" />
         </branch>
         <branch name="XLXN_33(7:0)">
+            <wire x2="816" y1="432" y2="432" x1="800" />
+            <wire x2="832" y1="432" y2="432" x1="816" />
             <wire x2="800" y1="432" y2="1520" x1="800" />
             <wire x2="2672" y1="1520" y2="1520" x1="800" />
-            <wire x2="832" y1="432" y2="432" x1="800" />
             <wire x2="2672" y1="688" y2="688" x1="2608" />
             <wire x2="2672" y1="688" y2="1520" x1="2672" />
         </branch>
@@ -353,5 +359,9 @@
         </branch>
         <instance x="2128" y="720" name="XLXI_6" orien="R0">
         </instance>
+        <branch name="led0">
+            <wire x2="2640" y1="752" y2="752" x1="2608" />
+        </branch>
+        <iomarker fontsize="28" x="2640" y="752" name="led0" orien="R0" />
     </sheet>
 </drawing>

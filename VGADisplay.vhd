@@ -20,7 +20,8 @@ entity VGADisplay is
 			VGA_VS : out  STD_LOGIC;
 			AMP_WE : out STD_LOGIC;
 			AMP_DI : out STD_LOGIC_VECTOR(7 downto 0);
-			ADC_Start : out STD_LOGIC);
+			ADC_Start : out STD_LOGIC;
+			LED1 : out STD_LOGIC := '0');
 end VGADisplay;
 
 architecture Behavioral of VGADisplay is
@@ -31,9 +32,11 @@ architecture Behavioral of VGADisplay is
 	type Point is array (1 downto 0) of INTEGER;
 	type BombArray is array (4 downto 0) of Point;
 
-	Signal bombsPosition : BombArray := ((50, -850), (200, -650), (400, -450), (600, -250), (750, -50)); -- -50 by bomby pojawialy sie po chwili od wlaczenia gry
+	Signal bombsPosition : BombArray := ((50, -2850), (200, -2650), (400, -2450), (600, -2250), (750, -2050)); -- -50 by bomby pojawialy sie po chwili od wlaczenia gry
 
 	Signal rand800 : unsigned(9 downto 0);
+
+	Signal colision : STD_LOGIC := '0';
 begin
 
 	Horizontal_sync : process ( Clk_50MHz, hs_counter ) is
@@ -189,8 +192,8 @@ begin
 		end if;
 		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
 			if ( bombsPosition(4)(0) >= 650 ) then --despawn below the screen
-				bombsPosition(4)(1) <= to_integer( rand800 );
 				bombsPosition(4)(0) <= -12; --spawn above screen
+				bombsPosition(4)(1) <= to_integer( rand800 );
 			else
 				bombsPosition(4)(0) <= bombsPosition(4)(0) + 7;
 			end if;
@@ -207,5 +210,27 @@ begin
 			end if;
 		end if;
 	end process;
+
+	checkColiosion : process (Clk_50MHz, bombsPosition, playerPosition) is
+		begin
+			if (rising_edge(Clk_50MHz) and hs_counter = 801 and vs_counter = 601) then
+				if (abs( playerPosition - bombsPosition(0)(1) ) < 25 and abs( 500 - bombsPosition(0)(0) ) < 20) then
+					colision <= '1';
+					LED1 <= '1';
+				elsif (abs( playerPosition - bombsPosition(1)(1) ) < 25 and abs( 500 - bombsPosition(1)(0) ) < 20) then
+					colision <= '1';
+					LED1 <= '1';
+				elsif (abs( playerPosition - bombsPosition(2)(1) ) < 25 and abs( 500 - bombsPosition(2)(0) ) < 20) then
+					colision <= '1';
+					LED1 <= '1';
+				elsif (abs( playerPosition - bombsPosition(3)(1) ) < 25 and abs( 500 - bombsPosition(3)(0) ) < 20) then
+					colision <= '1';
+					LED1 <= '1';
+				elsif (abs( playerPosition - bombsPosition(4)(1) ) < 25 and abs( 500 - bombsPosition(4)(0) ) < 20) then
+					colision <= '1';
+					LED1 <= '1';
+				end if;
+			end if;
+		end process;
 
 end Behavioral;
