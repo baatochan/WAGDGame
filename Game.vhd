@@ -13,7 +13,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity Game is
 	Port ( Clk_50MHz   : in   STD_LOGIC;
 	       POSITION_IN : in   signed (13 downto 0);
-		   RESUME_BTN  : in   STD_LOGIC;
+	       RESUME_BTN  : in   STD_LOGIC;
 	       VGA_R       : out  STD_LOGIC;
 	       VGA_G       : out  STD_LOGIC;
 	       VGA_B       : out  STD_LOGIC;
@@ -97,7 +97,7 @@ begin
 		end if;
 	end process;
 
-	Print : process ( vs_counter, hs_counter, playerPositionX, bombsPosition ) is
+	Print : process ( Clk_50MHz, vs_counter, hs_counter, playerPositionX, bombsPosition ) is
 	begin
 	if ( rising_edge(Clk_50MHz) ) then
 		if ( hs_counter > 0 and hs_counter < 799 and vs_counter > 0 and vs_counter < 599 ) then
@@ -152,7 +152,7 @@ begin
 	end if;
 	end process;
 
-	CalculatePlayerPos : process ( POSITION_IN ) is
+	CalculatePlayerPos : process ( Clk_50MHz, POSITION_IN ) is
 		variable temp : INTEGER;
 	begin
 		if ( rising_edge(Clk_50MHz) and colision = '0' ) then
@@ -164,7 +164,7 @@ begin
 		end if;
 	end process;
 
-	CalculateBombsPos : process ( hs_counter, vs_counter, bombsPosition ) is
+	CalculateBombsPos : process ( Clk_50MHz, hs_counter, vs_counter, bombsPosition ) is
 	begin
 		if ( rising_edge(Clk_50MHz) ) then
 			if ( colision = '0' ) then
