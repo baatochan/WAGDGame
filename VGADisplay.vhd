@@ -92,6 +92,7 @@ begin
 
 	PrintPlayer : process ( vs_counter, hs_counter, playerPosition, bomb1Position ) is
 	begin
+	if ( rising_edge(Clk_50MHz) ) then
 		if ( hs_counter > 0 and hs_counter < 799 and vs_counter > 0 and vs_counter < 599 ) then
 			if (hs_counter > playerPosition - 20 and hs_counter < playerPosition + 20 and vs_counter > 490 and vs_counter < 510) then
 				VGA_R <= '1';
@@ -113,25 +114,28 @@ begin
 			VGA_G <= '0';
 			VGA_B <= '0';
 		end if;
+	end if;
 	end process;
 
 	CalculatePlayerPos : process ( POSITION_IN ) is
 		variable temp : INTEGER;
 	begin
-		temp := to_integer( POSITION_IN );
-		temp := temp / 64;
-		temp := temp * 3;
-		playerPosition <= 399 + temp;
+		if (rising_edge(Clk_50MHz)) then
+			temp := to_integer( POSITION_IN );
+			temp := temp / 64;
+			temp := temp * 3;
+			playerPosition <= 399 + temp;
+		end if;
 	end process;
 
 	MoveBombs : process ( hs_counter, vs_counter, bomb1Position ) is
 	begin
-		if (hs_counter = 855 and vs_counter = 636) then
+		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
 			if ( bomb1Position(0) >= 700 ) then --cause why not
 				bomb1Position(1) <= to_integer( rand800 );
 				bomb1Position(0) <= 0;
 			else
-				bomb1Position(0) <= bomb1Position(0) + 1;
+				bomb1Position(0) <= bomb1Position(0) + 5;
 			end if;
 		end if;
 	end process;
