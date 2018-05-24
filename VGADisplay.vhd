@@ -32,7 +32,7 @@ architecture Behavioral of VGADisplay is
 	type Point is array (1 downto 0) of INTEGER;
 	type BombArray is array (4 downto 0) of Point;
 
-	Signal bombsPosition : BombArray := ((50, -2850), (200, -2650), (400, -2450), (600, -2250), (750, -2050)); -- -50 by bomby pojawialy sie po chwili od wlaczenia gry
+	Signal bombsPosition : BombArray := ((50, -2850), (200, -2650), (400, -2450), (600, -2250), (750, -2050)); -- -2000 to get few seconds before first bomb, 200 difrence between them to not get them falling all in the same time
 
 	Signal rand800 : unsigned(9 downto 0);
 
@@ -83,13 +83,11 @@ begin
 			if (hs_counter = 0 and vs_counter = 0) then
 				AMP_DI <= X"11";
 				AMP_WE <= '1';
+			elsif (hs_counter = 800 and vs_counter = 600) then
+				ADC_Start <= '1';
 			else
-				if (hs_counter = 800 and vs_counter = 600) then
-					ADC_Start <= '1';
-				else
-					ADC_Start <= '0';
-					AMP_WE <= '0';
-				end if;
+				ADC_Start <= '0';
+				AMP_WE <= '0';
 			end if;
 		end if;
 	end process;
@@ -99,45 +97,43 @@ begin
 	if ( rising_edge(Clk_50MHz) ) then
 		if ( hs_counter > 0 and hs_counter < 799 and vs_counter > 0 and vs_counter < 599 ) then
 			if (hs_counter > playerPosition - 20 and hs_counter < playerPosition + 20 and vs_counter > 490 and vs_counter < 510) then
+				-- print player
 				VGA_R <= '1';
 				VGA_G <= '0';
 				VGA_B <= '1';
+			elsif ( hs_counter > bombsPosition(0)(1) - 5 and hs_counter < bombsPosition(0)(1) + 5 and vs_counter > bombsPosition(0)(0) - 10 and vs_counter < bombsPosition(0)(0) + 10 ) then
+				-- print bomb 0
+				VGA_R <= '0';
+				VGA_G <= '1';
+				VGA_B <= '0';
+			elsif ( hs_counter > bombsPosition(1)(1) - 5 and hs_counter < bombsPosition(1)(1) + 5 and vs_counter > bombsPosition(1)(0) - 10 and vs_counter < bombsPosition(1)(0) + 10 ) then
+				-- print bomb 1
+				VGA_R <= '0';
+				VGA_G <= '1';
+				VGA_B <= '0';
+			elsif ( hs_counter > bombsPosition(2)(1) - 5 and hs_counter < bombsPosition(2)(1) + 5 and vs_counter > bombsPosition(2)(0) - 10 and vs_counter < bombsPosition(2)(0) + 10 ) then
+				-- print bomb 2
+				VGA_R <= '0';
+				VGA_G <= '1';
+				VGA_B <= '0';
+			elsif ( hs_counter > bombsPosition(3)(1) - 5 and hs_counter < bombsPosition(3)(1) + 5 and vs_counter > bombsPosition(3)(0) - 10 and vs_counter < bombsPosition(3)(0) + 10 ) then
+				-- print bomb 3
+				VGA_R <= '0';
+				VGA_G <= '1';
+				VGA_B <= '0';
+			elsif ( hs_counter > bombsPosition(4)(1) - 5 and hs_counter < bombsPosition(4)(1) + 5 and vs_counter > bombsPosition(4)(0) - 10 and vs_counter < bombsPosition(4)(0) + 10 ) then
+				-- print bomb 4
+				VGA_R <= '0';
+				VGA_G <= '1';
+				VGA_B <= '0';
 			else
-				if ( hs_counter > bombsPosition(0)(1) - 5 and hs_counter < bombsPosition(0)(1) + 5 and vs_counter > bombsPosition(0)(0) - 10 and vs_counter < bombsPosition(0)(0) + 10 ) then
-					VGA_R <= '0';
-					VGA_G <= '1';
-					VGA_B <= '0';
-				else
-					if ( hs_counter > bombsPosition(1)(1) - 5 and hs_counter < bombsPosition(1)(1) + 5 and vs_counter > bombsPosition(1)(0) - 10 and vs_counter < bombsPosition(1)(0) + 10 ) then
-						VGA_R <= '0';
-						VGA_G <= '1';
-						VGA_B <= '0';
-					else
-						if ( hs_counter > bombsPosition(2)(1) - 5 and hs_counter < bombsPosition(2)(1) + 5 and vs_counter > bombsPosition(2)(0) - 10 and vs_counter < bombsPosition(2)(0) + 10 ) then
-							VGA_R <= '0';
-							VGA_G <= '1';
-							VGA_B <= '0';
-						else
-							if ( hs_counter > bombsPosition(3)(1) - 5 and hs_counter < bombsPosition(3)(1) + 5 and vs_counter > bombsPosition(3)(0) - 10 and vs_counter < bombsPosition(3)(0) + 10 ) then
-								VGA_R <= '0';
-								VGA_G <= '1';
-								VGA_B <= '0';
-							else
-								if ( hs_counter > bombsPosition(4)(1) - 5 and hs_counter < bombsPosition(4)(1) + 5 and vs_counter > bombsPosition(4)(0) - 10 and vs_counter < bombsPosition(4)(0) + 10 ) then
-									VGA_R <= '0';
-									VGA_G <= '1';
-									VGA_B <= '0';
-								else
-									VGA_R <= '0';
-									VGA_G <= '0';
-									VGA_B <= '0';
-								end if;
-							end if;
-						end if;
-					end if;
-				end if;
+				-- print black background
+				VGA_R <= '0';
+				VGA_G <= '0';
+				VGA_B <= '0';
 			end if;
 		else
+			-- set 0 to secure vga output and not get random lines
 			VGA_R <= '0';
 			VGA_G <= '0';
 			VGA_B <= '0';
@@ -158,6 +154,7 @@ begin
 
 	MoveBombs : process ( hs_counter, vs_counter, bombsPosition ) is
 	begin
+		-- respawn bomb 0
 		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
 			if ( bombsPosition(0)(0) >= 650 ) then --despawn below the screen
 				bombsPosition(0)(1) <= to_integer( rand800 );
@@ -166,6 +163,7 @@ begin
 				bombsPosition(0)(0) <= bombsPosition(0)(0) + 7;
 			end if;
 		end if;
+		-- respawn bomb 1
 		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
 			if ( bombsPosition(1)(0) >= 650 ) then --despawn below the screen
 				bombsPosition(1)(1) <= to_integer( rand800 );
@@ -174,6 +172,7 @@ begin
 				bombsPosition(1)(0) <= bombsPosition(1)(0) + 7;
 			end if;
 		end if;
+		-- respawn bomb 2
 		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
 			if ( bombsPosition(2)(0) >= 650 ) then --despawn below the screen
 				bombsPosition(2)(1) <= to_integer( rand800 );
@@ -182,6 +181,7 @@ begin
 				bombsPosition(2)(0) <= bombsPosition(2)(0) + 7;
 			end if;
 		end if;
+		-- respawn bomb 3
 		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
 			if ( bombsPosition(3)(0) >= 650 ) then --despawn below the screen
 				bombsPosition(3)(1) <= to_integer( rand800 );
@@ -190,6 +190,7 @@ begin
 				bombsPosition(3)(0) <= bombsPosition(3)(0) + 7;
 			end if;
 		end if;
+		-- respawn bomb 4
 		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
 			if ( bombsPosition(4)(0) >= 650 ) then --despawn below the screen
 				bombsPosition(4)(0) <= -12; --spawn above screen
@@ -212,25 +213,25 @@ begin
 	end process;
 
 	checkColiosion : process (Clk_50MHz, bombsPosition, playerPosition) is
-		begin
-			if (rising_edge(Clk_50MHz) and hs_counter = 801 and vs_counter = 601) then
-				if (abs( playerPosition - bombsPosition(0)(1) ) < 25 and abs( 500 - bombsPosition(0)(0) ) < 20) then
-					colision <= '1';
-					LED1 <= '1';
-				elsif (abs( playerPosition - bombsPosition(1)(1) ) < 25 and abs( 500 - bombsPosition(1)(0) ) < 20) then
-					colision <= '1';
-					LED1 <= '1';
-				elsif (abs( playerPosition - bombsPosition(2)(1) ) < 25 and abs( 500 - bombsPosition(2)(0) ) < 20) then
-					colision <= '1';
-					LED1 <= '1';
-				elsif (abs( playerPosition - bombsPosition(3)(1) ) < 25 and abs( 500 - bombsPosition(3)(0) ) < 20) then
-					colision <= '1';
-					LED1 <= '1';
-				elsif (abs( playerPosition - bombsPosition(4)(1) ) < 25 and abs( 500 - bombsPosition(4)(0) ) < 20) then
-					colision <= '1';
-					LED1 <= '1';
-				end if;
+	begin
+		if (rising_edge(Clk_50MHz) and hs_counter = 801 and vs_counter = 601) then
+			if (abs( playerPosition - bombsPosition(0)(1) ) < 25 and abs( 500 - bombsPosition(0)(0) ) < 20) then
+				colision <= '1';
+				LED1 <= '1';
+			elsif (abs( playerPosition - bombsPosition(1)(1) ) < 25 and abs( 500 - bombsPosition(1)(0) ) < 20) then
+				colision <= '1';
+				LED1 <= '1';
+			elsif (abs( playerPosition - bombsPosition(2)(1) ) < 25 and abs( 500 - bombsPosition(2)(0) ) < 20) then
+				colision <= '1';
+				LED1 <= '1';
+			elsif (abs( playerPosition - bombsPosition(3)(1) ) < 25 and abs( 500 - bombsPosition(3)(0) ) < 20) then
+				colision <= '1';
+				LED1 <= '1';
+			elsif (abs( playerPosition - bombsPosition(4)(1) ) < 25 and abs( 500 - bombsPosition(4)(0) ) < 20) then
+				colision <= '1';
+				LED1 <= '1';
 			end if;
-		end process;
+		end if;
+	end process;
 
 end Behavioral;
