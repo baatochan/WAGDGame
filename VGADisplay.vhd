@@ -11,17 +11,17 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity VGADisplay is
-	Port ( Clk_50MHz   : in  STD_LOGIC;
-	       POSITION_IN : in signed(13 downto 0);
+	Port ( Clk_50MHz   : in   STD_LOGIC;
+	       POSITION_IN : in   signed (13 downto 0);
 	       VGA_R       : out  STD_LOGIC;
 	       VGA_G       : out  STD_LOGIC;
 	       VGA_B       : out  STD_LOGIC;
 	       VGA_HS      : out  STD_LOGIC;
 	       VGA_VS      : out  STD_LOGIC;
-	       AMP_WE      : out STD_LOGIC;
-	       AMP_DI      : out STD_LOGIC_VECTOR(7 downto 0);
-	       ADC_Start   : out STD_LOGIC;
-	       LED1        : out STD_LOGIC := '0' );
+	       AMP_WE      : out  STD_LOGIC;
+	       AMP_DI      : out  STD_LOGIC_VECTOR (7 downto 0);
+	       ADC_Start   : out  STD_LOGIC;
+	       LED1        : out  STD_LOGIC := '0' );
 end VGADisplay;
 
 architecture Behavioral of VGADisplay is
@@ -39,7 +39,7 @@ architecture Behavioral of VGADisplay is
 	-- bombsPosition(x)(1) -> x position; bombsPosition(x)(0) -> y position;
 
 
-	Signal rand800 : unsigned(9 downto 0);
+	Signal rand800 : unsigned (9 downto 0);
 
 	Signal colision : STD_LOGIC := '0';
 begin
@@ -219,7 +219,7 @@ begin
 	begin
 		if ( rising_edge(Clk_50MHz) ) then
 			if ( rand800 < 800 ) then
-				rand800 <= rand800 + 1 + unsigned(POSITION_IN(1 downto 0));
+				rand800 <= rand800 + 1 + unsigned( POSITION_IN(1 downto 0) );
 			else
 				rand800 <= (others => '0');
 			end if;
