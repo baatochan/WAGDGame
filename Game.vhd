@@ -25,8 +25,8 @@ entity Game is
 end Game;
 
 architecture Behavioral of Game is
-	Signal vs_counter : INTEGER;
-	Signal hs_counter : INTEGER;
+	Signal vs_counter : INTEGER := 0;
+	Signal hs_counter : INTEGER := 0;
 
 
 	Signal playerPositionX : INTEGER := 400;
