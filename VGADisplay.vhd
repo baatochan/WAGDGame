@@ -27,11 +27,11 @@ architecture Behavioral of VGADisplay is
 	Signal vs_counter : INTEGER;
 	Signal hs_counter : INTEGER;
 	Signal playerPosition : INTEGER := 400;
-	
+
 	type Point is array (1 downto 0) of INTEGER;
-	
+
 	Signal bomb1Position : Point := (250, 0);
-	
+
 	Signal rand800 : unsigned(9 downto 0);
 begin
 
@@ -72,7 +72,7 @@ begin
 			end if;
 		end if;
 	end process;
-	
+
 	ADC_Support : process ( Clk_50MHz, hs_counter, vs_counter ) is
 	begin
 		if (rising_edge(Clk_50MHz)) then
@@ -92,36 +92,42 @@ begin
 
 	PrintPlayer : process ( vs_counter, hs_counter, playerPosition, bomb1Position ) is
 	begin
-		if (hs_counter > playerPosition - 20 and hs_counter < playerPosition + 20 and vs_counter > 490 and vs_counter < 510) then
-			VGA_R <= '1';
-			VGA_G <= '0';
-			VGA_B <= '1';
-		else
-			if ( hs_counter > bomb1Position(1) - 5 and hs_counter < bomb1Position(1) + 5 and vs_counter > bomb1Position(0) - 10 and vs_counter < bomb1Position(0) + 10 ) then
-				VGA_R <= '0';
-				VGA_G <= '1';
-				VGA_B <= '0';
-			else
-				VGA_R <= '0';
+		if ( hs_counter > 0 and hs_counter < 799 and vs_counter > 0 and vs_counter < 599 ) then
+			if (hs_counter > playerPosition - 20 and hs_counter < playerPosition + 20 and vs_counter > 490 and vs_counter < 510) then
+				VGA_R <= '1';
 				VGA_G <= '0';
-				VGA_B <= '0';
+				VGA_B <= '1';
+			else
+				if ( hs_counter > bomb1Position(1) - 5 and hs_counter < bomb1Position(1) + 5 and vs_counter > bomb1Position(0) - 10 and vs_counter < bomb1Position(0) + 10 ) then
+					VGA_R <= '0';
+					VGA_G <= '1';
+					VGA_B <= '0';
+				else
+					VGA_R <= '0';
+					VGA_G <= '0';
+					VGA_B <= '0';
+				end if;
 			end if;
+		else
+			VGA_R <= '0';
+			VGA_G <= '0';
+			VGA_B <= '0';
 		end if;
 	end process;
-	
+
 	CalculatePlayerPos : process ( POSITION_IN ) is
 		variable temp : INTEGER;
 	begin
 		temp := to_integer( POSITION_IN );
 		temp := temp / 64;
 		temp := temp * 3;
-		playerPosition <= 400 + temp;
+		playerPosition <= 399 + temp;
 	end process;
-	
+
 	MoveBombs : process ( hs_counter, vs_counter, bomb1Position ) is
 	begin
-		if (hs_counter = 801 and vs_counter = 601) then
-			if ( bomb1Position(0) >= 600 ) then
+		if (hs_counter = 855 and vs_counter = 636) then
+			if ( bomb1Position(0) >= 700 ) then --cause why not
 				bomb1Position(1) <= to_integer( rand800 );
 				bomb1Position(0) <= 0;
 			else
@@ -129,7 +135,7 @@ begin
 			end if;
 		end if;
 	end process;
-	
+
 	calculateRand : process ( Clk_50MHz, POSITION_IN ) is
 	begin
 		if (rising_edge(Clk_50MHz)) then
