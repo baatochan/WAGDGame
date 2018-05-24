@@ -11,17 +11,17 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity VGADisplay is
-	Port ( Clk_50MHz : in  STD_LOGIC;
-			POSITION_IN : in signed(13 downto 0);
-			VGA_R : out  STD_LOGIC;
-			VGA_G : out  STD_LOGIC;
-			VGA_B : out  STD_LOGIC;
-			VGA_HS : out  STD_LOGIC;
-			VGA_VS : out  STD_LOGIC;
-			AMP_WE : out STD_LOGIC;
-			AMP_DI : out STD_LOGIC_VECTOR(7 downto 0);
-			ADC_Start : out STD_LOGIC;
-			LED1 : out STD_LOGIC := '0');
+	Port ( Clk_50MHz   : in  STD_LOGIC;
+	       POSITION_IN : in signed(13 downto 0);
+	       VGA_R       : out  STD_LOGIC;
+	       VGA_G       : out  STD_LOGIC;
+	       VGA_B       : out  STD_LOGIC;
+	       VGA_HS      : out  STD_LOGIC;
+	       VGA_VS      : out  STD_LOGIC;
+	       AMP_WE      : out STD_LOGIC;
+	       AMP_DI      : out STD_LOGIC_VECTOR(7 downto 0);
+	       ADC_Start   : out STD_LOGIC;
+	       LED1        : out STD_LOGIC := '0' );
 end VGADisplay;
 
 architecture Behavioral of VGADisplay is
