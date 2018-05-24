@@ -20,8 +20,7 @@ entity VGADisplay is
 	       VGA_VS      : out  STD_LOGIC;
 	       AMP_WE      : out  STD_LOGIC;
 	       AMP_DI      : out  STD_LOGIC_VECTOR (7 downto 0);
-	       ADC_Start   : out  STD_LOGIC;
-	       LED1        : out  STD_LOGIC := '0' );
+	       ADC_Start   : out  STD_LOGIC );
 end VGADisplay;
 
 architecture Behavioral of VGADisplay is
