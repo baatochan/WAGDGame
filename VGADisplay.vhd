@@ -35,7 +35,7 @@ architecture Behavioral of VGADisplay is
 	type Point is array (1 downto 0) of INTEGER;
 	type BombArray is array (4 downto 0) of Point;
 
-	Signal bombsPosition : BombArray := ((50, -2850), (200, -2650), (400, -2450), (600, -2250), (750, -2050)); -- -2000 to get few seconds before first bomb, 200 difrence between them to not get them falling all in the same time
+	Signal bombsPosition : BombArray := ( (50, -2850), (200, -2650), (400, -2450), (600, -2250), (750, -2050) ); -- -2000 to get few seconds before first bomb, 200 difrence between them to not get them falling all in the same time
 	-- bombsPosition(x)(1) -> x position; bombsPosition(x)(0) -> y position;
 
 
@@ -46,8 +46,8 @@ begin
 
 	HorizontalSync : process ( Clk_50MHz, hs_counter ) is
 	begin
-		if (rising_edge(Clk_50MHz)) then
-			if (hs_counter < -64) then
+		if ( rising_edge(Clk_50MHz) ) then
+			if ( hs_counter < -64 ) then
 				VGA_HS <= '0';
 			else
 				VGA_HS <= '1';
@@ -57,8 +57,8 @@ begin
 
 	VerticalSync : process ( Clk_50MHz, vs_counter ) is
 	begin
-		if (rising_edge(Clk_50MHz)) then
-			if (vs_counter < -23) then
+		if ( rising_edge(Clk_50MHz) ) then
+			if ( vs_counter < -23 ) then
 				VGA_VS <= '0';
 			else
 				VGA_VS <= '1';
@@ -68,10 +68,10 @@ begin
 
 	PixelCounters : process ( Clk_50MHz, hs_counter, vs_counter ) is
 	begin
-		if (falling_edge(Clk_50MHz)) then
-			if (hs_counter = 855) then
+		if ( falling_edge(Clk_50MHz) ) then
+			if ( hs_counter = 855 ) then
 				hs_counter <= -184;
-				if (vs_counter = 636) then
+				if ( vs_counter = 636 ) then
 					vs_counter <= -29;
 				else
 					vs_counter <= vs_counter + 1;
@@ -84,11 +84,11 @@ begin
 
 	ADCSync : process ( Clk_50MHz, hs_counter, vs_counter ) is
 	begin
-		if (rising_edge(Clk_50MHz)) then
-			if (hs_counter = 0 and vs_counter = 0) then
+		if ( rising_edge(Clk_50MHz) ) then
+			if ( hs_counter = 0 and vs_counter = 0 ) then
 				AMP_DI <= X"11";
 				AMP_WE <= '1';
-			elsif (hs_counter = 800 and vs_counter = 600) then
+			elsif ( hs_counter = 800 and vs_counter = 600 ) then
 				ADC_Start <= '1';
 			else
 				ADC_Start <= '0';
