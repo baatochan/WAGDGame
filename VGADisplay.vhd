@@ -13,6 +13,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity VGADisplay is
 	Port ( Clk_50MHz   : in   STD_LOGIC;
 	       POSITION_IN : in   signed (13 downto 0);
+		   RESUME_BTN  : in   STD_LOGIC;
 	       VGA_R       : out  STD_LOGIC;
 	       VGA_G       : out  STD_LOGIC;
 	       VGA_B       : out  STD_LOGIC;
@@ -165,51 +166,57 @@ begin
 
 	CalculateBombsPos : process ( hs_counter, vs_counter, bombsPosition ) is
 	begin
-		if ( rising_edge(Clk_50MHz) and colision = '0' ) then
-			if ( hs_counter = 855 and vs_counter = 636 ) then
-				if ( bombsPosition(0)(0) >= 650 ) then --despawn below the screen
-					bombsPosition(0)(1) <= to_integer( rand800 );
-					bombsPosition(0)(0) <= -12; --spawn above screen
-				else
-					--move 7 pixels down every frame
-					bombsPosition(0)(0) <= bombsPosition(0)(0) + 7;
+		if ( rising_edge(Clk_50MHz) ) then
+			if ( colision = '0' ) then
+				if ( hs_counter = 855 and vs_counter = 636 ) then
+					if ( bombsPosition(0)(0) >= 650 ) then --despawn below the screen
+						bombsPosition(0)(1) <= to_integer( rand800 );
+						bombsPosition(0)(0) <= -12; --spawn above screen
+					else
+						--move 7 pixels down every frame
+						bombsPosition(0)(0) <= bombsPosition(0)(0) + 7;
+					end if;
+				end if;
+				if ( hs_counter = 855 and vs_counter = 636 ) then
+					if ( bombsPosition(1)(0) >= 650 ) then --despawn below the screen
+						bombsPosition(1)(1) <= to_integer( rand800 );
+						bombsPosition(1)(0) <= -12; --spawn above screen
+					else
+						--move 7 pixels down every frame
+						bombsPosition(1)(0) <= bombsPosition(1)(0) + 7;
+					end if;
+				end if;
+				if ( hs_counter = 855 and vs_counter = 636 ) then
+					if ( bombsPosition(2)(0) >= 650 ) then --despawn below the screen
+						bombsPosition(2)(1) <= to_integer( rand800 );
+						bombsPosition(2)(0) <= -12; --spawn above screen
+					else
+						--move 7 pixels down every frame
+						bombsPosition(2)(0) <= bombsPosition(2)(0) + 7;
+					end if;
+				end if;
+				if ( hs_counter = 855 and vs_counter = 636 ) then
+					if ( bombsPosition(3)(0) >= 650 ) then --despawn below the screen
+						bombsPosition(3)(1) <= to_integer( rand800 );
+						bombsPosition(3)(0) <= -12; --spawn above screen
+					else
+						--move 7 pixels down every frame
+						bombsPosition(3)(0) <= bombsPosition(3)(0) + 7;
+					end if;
+				end if;
+				if ( hs_counter = 855 and vs_counter = 636 ) then
+					if ( bombsPosition(4)(0) >= 650 ) then --despawn below the screen
+						bombsPosition(4)(0) <= -12; --spawn above screen
+						bombsPosition(4)(1) <= to_integer( rand800 );
+					else
+						--move 7 pixels down every frame
+						bombsPosition(4)(0) <= bombsPosition(4)(0) + 7;
+					end if;
 				end if;
 			end if;
-			if ( hs_counter = 855 and vs_counter = 636 ) then
-				if ( bombsPosition(1)(0) >= 650 ) then --despawn below the screen
-					bombsPosition(1)(1) <= to_integer( rand800 );
-					bombsPosition(1)(0) <= -12; --spawn above screen
-				else
-					--move 7 pixels down every frame
-					bombsPosition(1)(0) <= bombsPosition(1)(0) + 7;
-				end if;
-			end if;
-			if ( hs_counter = 855 and vs_counter = 636 ) then
-				if ( bombsPosition(2)(0) >= 650 ) then --despawn below the screen
-					bombsPosition(2)(1) <= to_integer( rand800 );
-					bombsPosition(2)(0) <= -12; --spawn above screen
-				else
-					--move 7 pixels down every frame
-					bombsPosition(2)(0) <= bombsPosition(2)(0) + 7;
-				end if;
-			end if;
-			if ( hs_counter = 855 and vs_counter = 636 ) then
-				if ( bombsPosition(3)(0) >= 650 ) then --despawn below the screen
-					bombsPosition(3)(1) <= to_integer( rand800 );
-					bombsPosition(3)(0) <= -12; --spawn above screen
-				else
-					--move 7 pixels down every frame
-					bombsPosition(3)(0) <= bombsPosition(3)(0) + 7;
-				end if;
-			end if;
-			if ( hs_counter = 855 and vs_counter = 636 ) then
-				if ( bombsPosition(4)(0) >= 650 ) then --despawn below the screen
-					bombsPosition(4)(0) <= -12; --spawn above screen
-					bombsPosition(4)(1) <= to_integer( rand800 );
-				else
-					--move 7 pixels down every frame
-					bombsPosition(4)(0) <= bombsPosition(4)(0) + 7;
-				end if;
+			-- reset bomb pos if button pressed
+			if ( RESUME_BTN = '1' ) then
+				bombsPosition <= ( (50, -2850), (200, -2650), (400, -2450), (600, -2250), (750, -2050) );
 			end if;
 		end if;
 	end process;
@@ -227,17 +234,24 @@ begin
 
 	CheckIfColiosion : process ( Clk_50MHz, hs_counter, vs_counter, bombsPosition, playerPositionX ) is
 	begin
-		if ( rising_edge( Clk_50MHz ) and hs_counter = 801 and vs_counter = 601 ) then
-			if ( abs( playerPositionX - bombsPosition(0)(1) ) < 25 and abs( 500 - bombsPosition(0)(0) ) < 20 ) then
-				colision <= '1';
-			elsif ( abs( playerPositionX - bombsPosition(1)(1) ) < 25 and abs( 500 - bombsPosition(1)(0) ) < 20 ) then
-				colision <= '1';
-			elsif ( abs( playerPositionX - bombsPosition(2)(1) ) < 25 and abs( 500 - bombsPosition(2)(0) ) < 20 ) then
-				colision <= '1';
-			elsif ( abs( playerPositionX - bombsPosition(3)(1) ) < 25 and abs( 500 - bombsPosition(3)(0) ) < 20 ) then
-				colision <= '1';
-			elsif ( abs( playerPositionX - bombsPosition(4)(1) ) < 25 and abs( 500 - bombsPosition(4)(0) ) < 20 ) then
-				colision <= '1';
+		if ( rising_edge(Clk_50MHz) and hs_counter = 801 and vs_counter = 601 ) then
+			-- once per frame check if colision occurs
+			if ( hs_counter = 801 and vs_counter = 601 ) then
+				if ( abs( playerPositionX - bombsPosition(0)(1) ) < 25 and abs( 500 - bombsPosition(0)(0) ) < 20 ) then
+					colision <= '1';
+				elsif ( abs( playerPositionX - bombsPosition(1)(1) ) < 25 and abs( 500 - bombsPosition(1)(0) ) < 20 ) then
+					colision <= '1';
+				elsif ( abs( playerPositionX - bombsPosition(2)(1) ) < 25 and abs( 500 - bombsPosition(2)(0) ) < 20 ) then
+					colision <= '1';
+				elsif ( abs( playerPositionX - bombsPosition(3)(1) ) < 25 and abs( 500 - bombsPosition(3)(0) ) < 20 ) then
+					colision <= '1';
+				elsif ( abs( playerPositionX - bombsPosition(4)(1) ) < 25 and abs( 500 - bombsPosition(4)(0) ) < 20 ) then
+					colision <= '1';
+				end if;
+			end if;
+			-- resume game if button pressed
+			if ( RESUME_BTN = '1' ) then
+				colision <= '0';
 			end if;
 		end if;
 	end process;

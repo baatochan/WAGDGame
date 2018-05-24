@@ -38,7 +38,7 @@
         <signal name="LCD_RW" />
         <signal name="LCD_D(3:0)" />
         <signal name="SF_CE" />
-        <signal name="led0" />
+        <signal name="btn0" />
         <port polarity="Input" name="Clk_50MHz" />
         <port polarity="Input" name="SPI_MISO" />
         <port polarity="Input" name="AMP_DOUT" />
@@ -61,7 +61,7 @@
         <port polarity="Output" name="LCD_RW" />
         <port polarity="BiDirectional" name="LCD_D(3:0)" />
         <port polarity="Output" name="SF_CE" />
-        <port polarity="Output" name="led0" />
+        <port polarity="Input" name="btn0" />
         <blockdef name="ADC_Ctrl">
             <timestamp>2018-4-26T6:46:41</timestamp>
             <line x2="0" y1="-800" y2="-800" x1="64" />
@@ -107,8 +107,8 @@
             <line x2="0" y1="-96" y2="-96" x1="64" />
         </blockdef>
         <blockdef name="VGADisplay">
-            <timestamp>2018-5-24T9:8:4</timestamp>
-            <line x2="480" y1="32" y2="32" x1="416" />
+            <timestamp>2018-5-24T10:49:18</timestamp>
+            <line x2="0" y1="32" y2="32" x1="64" />
             <line x2="0" y1="-480" y2="-480" x1="64" />
             <rect width="64" x="0" y="-44" height="24" />
             <line x2="0" y1="-32" y2="-32" x1="64" />
@@ -121,7 +121,7 @@
             <line x2="480" y1="-96" y2="-96" x1="416" />
             <rect width="64" x="416" y="-44" height="24" />
             <line x2="480" y1="-32" y2="-32" x1="416" />
-            <rect width="352" x="64" y="-512" height="576" />
+            <rect width="352" x="64" y="-512" height="640" />
         </blockdef>
         <block symbolname="ADC_Ctrl" name="XLXI_1">
             <blockpin signalname="Clk_50MHz" name="Clk_Sys" />
@@ -156,8 +156,8 @@
             <blockpin signalname="VGA_VS" name="VGA_VS" />
             <blockpin signalname="Line(56)" name="AMP_WE" />
             <blockpin signalname="Line(60)" name="ADC_Start" />
-            <blockpin signalname="led0" name="LED1" />
             <blockpin signalname="XLXN_33(7:0)" name="AMP_DI(7:0)" />
+            <blockpin signalname="btn0" name="RESUME_BTN" />
         </block>
         <block symbolname="LCD1x64" name="XLXI_2">
             <blockpin signalname="Clk_50MHz" name="Clk_50MHz" />
@@ -359,9 +359,11 @@
         </branch>
         <instance x="2128" y="720" name="XLXI_6" orien="R0">
         </instance>
-        <branch name="led0">
-            <wire x2="2640" y1="752" y2="752" x1="2608" />
+        <branch name="btn0">
+            <wire x2="1632" y1="1360" y2="1360" x1="480" />
+            <wire x2="1632" y1="752" y2="1360" x1="1632" />
+            <wire x2="2128" y1="752" y2="752" x1="1632" />
         </branch>
-        <iomarker fontsize="28" x="2640" y="752" name="led0" orien="R0" />
+        <iomarker fontsize="28" x="480" y="1360" name="btn0" orien="R180" />
     </sheet>
 </drawing>
