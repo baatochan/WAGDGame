@@ -27,19 +27,24 @@ end VGADisplay;
 architecture Behavioral of VGADisplay is
 	Signal vs_counter : INTEGER;
 	Signal hs_counter : INTEGER;
-	Signal playerPosition : INTEGER := 400;
+
+
+	Signal playerPositionX : INTEGER := 400;
+	-- playerPositionY := 500;
 
 	type Point is array (1 downto 0) of INTEGER;
 	type BombArray is array (4 downto 0) of Point;
 
 	Signal bombsPosition : BombArray := ((50, -2850), (200, -2650), (400, -2450), (600, -2250), (750, -2050)); -- -2000 to get few seconds before first bomb, 200 difrence between them to not get them falling all in the same time
+	-- bombsPosition(x)(1) -> x position; bombsPosition(x)(0) -> y position;
+
 
 	Signal rand800 : unsigned(9 downto 0);
 
 	Signal colision : STD_LOGIC := '0';
 begin
 
-	Horizontal_sync : process ( Clk_50MHz, hs_counter ) is
+	HorizontalSync : process ( Clk_50MHz, hs_counter ) is
 	begin
 		if (rising_edge(Clk_50MHz)) then
 			if (hs_counter < -64) then
@@ -50,7 +55,7 @@ begin
 		end if;
 	end process;
 
-	Vertical_sync : process ( Clk_50MHz, vs_counter ) is
+	VerticalSync : process ( Clk_50MHz, vs_counter ) is
 	begin
 		if (rising_edge(Clk_50MHz)) then
 			if (vs_counter < -23) then
@@ -61,7 +66,7 @@ begin
 		end if;
 	end process;
 
-	Pixel_counters : process ( Clk_50MHz, hs_counter, vs_counter ) is
+	PixelCounters : process ( Clk_50MHz, hs_counter, vs_counter ) is
 	begin
 		if (falling_edge(Clk_50MHz)) then
 			if (hs_counter = 855) then
@@ -77,7 +82,7 @@ begin
 		end if;
 	end process;
 
-	ADC_Support : process ( Clk_50MHz, hs_counter, vs_counter ) is
+	ADCSync : process ( Clk_50MHz, hs_counter, vs_counter ) is
 	begin
 		if (rising_edge(Clk_50MHz)) then
 			if (hs_counter = 0 and vs_counter = 0) then
@@ -92,11 +97,11 @@ begin
 		end if;
 	end process;
 
-	PrintPlayer : process ( vs_counter, hs_counter, playerPosition, bombsPosition ) is
+	Print : process ( vs_counter, hs_counter, playerPositionX, bombsPosition ) is
 	begin
 	if ( rising_edge(Clk_50MHz) ) then
 		if ( hs_counter > 0 and hs_counter < 799 and vs_counter > 0 and vs_counter < 599 ) then
-			if (hs_counter > playerPosition - 20 and hs_counter < playerPosition + 20 and vs_counter > 490 and vs_counter < 510) then
+			if (hs_counter > playerPositionX - 20 and hs_counter < playerPositionX + 20 and vs_counter > 490 and vs_counter < 510) then
 				-- print player
 				VGA_R <= '1';
 				VGA_G <= '0';
@@ -144,67 +149,68 @@ begin
 	CalculatePlayerPos : process ( POSITION_IN ) is
 		variable temp : INTEGER;
 	begin
-		if (rising_edge(Clk_50MHz)) then
+		if ( rising_edge(Clk_50MHz) ) then
 			temp := to_integer( POSITION_IN );
 			temp := temp / 64;
 			temp := temp * 3;
-			playerPosition <= 399 + temp;
+
+			playerPositionX <= 399 + temp;
 		end if;
 	end process;
 
-	MoveBombs : process ( hs_counter, vs_counter, bombsPosition ) is
+	CalculateBombsPos : process ( hs_counter, vs_counter, bombsPosition ) is
 	begin
-		-- respawn bomb 0
-		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
+		if ( rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636 ) then
 			if ( bombsPosition(0)(0) >= 650 ) then --despawn below the screen
 				bombsPosition(0)(1) <= to_integer( rand800 );
 				bombsPosition(0)(0) <= -12; --spawn above screen
 			else
+				--move 7 pixels down every frame
 				bombsPosition(0)(0) <= bombsPosition(0)(0) + 7;
 			end if;
 		end if;
-		-- respawn bomb 1
-		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
+		if ( rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636 ) then
 			if ( bombsPosition(1)(0) >= 650 ) then --despawn below the screen
 				bombsPosition(1)(1) <= to_integer( rand800 );
 				bombsPosition(1)(0) <= -12; --spawn above screen
 			else
+				--move 7 pixels down every frame
 				bombsPosition(1)(0) <= bombsPosition(1)(0) + 7;
 			end if;
 		end if;
-		-- respawn bomb 2
-		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
+		if ( rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636 ) then
 			if ( bombsPosition(2)(0) >= 650 ) then --despawn below the screen
 				bombsPosition(2)(1) <= to_integer( rand800 );
 				bombsPosition(2)(0) <= -12; --spawn above screen
 			else
+				--move 7 pixels down every frame
 				bombsPosition(2)(0) <= bombsPosition(2)(0) + 7;
 			end if;
 		end if;
-		-- respawn bomb 3
-		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
+		if ( rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636 ) then
 			if ( bombsPosition(3)(0) >= 650 ) then --despawn below the screen
 				bombsPosition(3)(1) <= to_integer( rand800 );
 				bombsPosition(3)(0) <= -12; --spawn above screen
 			else
+				--move 7 pixels down every frame
 				bombsPosition(3)(0) <= bombsPosition(3)(0) + 7;
 			end if;
 		end if;
-		-- respawn bomb 4
-		if (rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636) then
+		if ( rising_edge(Clk_50MHz) and hs_counter = 855 and vs_counter = 636 ) then
 			if ( bombsPosition(4)(0) >= 650 ) then --despawn below the screen
 				bombsPosition(4)(0) <= -12; --spawn above screen
 				bombsPosition(4)(1) <= to_integer( rand800 );
 			else
+				--move 7 pixels down every frame
 				bombsPosition(4)(0) <= bombsPosition(4)(0) + 7;
 			end if;
 		end if;
 	end process;
 
-	calculateRand : process ( Clk_50MHz, POSITION_IN ) is
+	CalculateRand : process ( Clk_50MHz, POSITION_IN ) is
 	begin
-		if (rising_edge(Clk_50MHz)) then
-			if (rand800 < 800) then
+		if ( rising_edge(Clk_50MHz) ) then
+			if ( rand800 < 800 ) then
 				rand800 <= rand800 + 1 + unsigned(POSITION_IN(1 downto 0));
 			else
 				rand800 <= (others => '0');
@@ -212,22 +218,22 @@ begin
 		end if;
 	end process;
 
-	checkColiosion : process (Clk_50MHz, bombsPosition, playerPosition) is
+	CheckIfColiosion : process ( Clk_50MHz, hs_counter, vs_counter, bombsPosition, playerPositionX ) is
 	begin
-		if (rising_edge(Clk_50MHz) and hs_counter = 801 and vs_counter = 601) then
-			if (abs( playerPosition - bombsPosition(0)(1) ) < 25 and abs( 500 - bombsPosition(0)(0) ) < 20) then
+		if ( rising_edge( Clk_50MHz ) and hs_counter = 801 and vs_counter = 601 ) then
+			if ( abs( playerPositionX - bombsPosition(0)(1) ) < 25 and abs( 500 - bombsPosition(0)(0) ) < 20 ) then
 				colision <= '1';
 				LED1 <= '1';
-			elsif (abs( playerPosition - bombsPosition(1)(1) ) < 25 and abs( 500 - bombsPosition(1)(0) ) < 20) then
+			elsif ( abs( playerPositionX - bombsPosition(1)(1) ) < 25 and abs( 500 - bombsPosition(1)(0) ) < 20 ) then
 				colision <= '1';
 				LED1 <= '1';
-			elsif (abs( playerPosition - bombsPosition(2)(1) ) < 25 and abs( 500 - bombsPosition(2)(0) ) < 20) then
+			elsif ( abs( playerPositionX - bombsPosition(2)(1) ) < 25 and abs( 500 - bombsPosition(2)(0) ) < 20 ) then
 				colision <= '1';
 				LED1 <= '1';
-			elsif (abs( playerPosition - bombsPosition(3)(1) ) < 25 and abs( 500 - bombsPosition(3)(0) ) < 20) then
+			elsif ( abs( playerPositionX - bombsPosition(3)(1) ) < 25 and abs( 500 - bombsPosition(3)(0) ) < 20 ) then
 				colision <= '1';
 				LED1 <= '1';
-			elsif (abs( playerPosition - bombsPosition(4)(1) ) < 25 and abs( 500 - bombsPosition(4)(0) ) < 20) then
+			elsif ( abs( playerPositionX - bombsPosition(4)(1) ) < 25 and abs( 500 - bombsPosition(4)(0) ) < 20 ) then
 				colision <= '1';
 				LED1 <= '1';
 			end if;
