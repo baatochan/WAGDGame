@@ -124,3 +124,12 @@ wlftwwf7me
 
 *.ngc
 *.sym
+
+# MS Office temp files
+
+*.tmp
+~$*.doc*
+~$*.xls*
+*.xlk
+~$*.ppt*
+*.~vsd*
