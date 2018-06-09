@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/git/WAGDGame/GameSimulation_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="gamesimulation" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="7" />
+   <wvobject fp_name="/gamesimulation/position_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">position_in[13:0]</obj_property>
+      <obj_property name="ObjectShortName">position_in[13:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gamesimulation/resume_btn" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">resume_btn</obj_property>
+      <obj_property name="ObjectShortName">resume_btn</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gamesimulation/uut/vs_counter" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">vs_counter</obj_property>
+      <obj_property name="ObjectShortName">vs_counter</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gamesimulation/uut/hs_counter" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">hs_counter</obj_property>
+      <obj_property name="ObjectShortName">hs_counter</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gamesimulation/uut/playerpositionx" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">playerpositionx</obj_property>
+      <obj_property name="ObjectShortName">playerpositionx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gamesimulation/uut/bombsposition" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bombsposition[4:0]</obj_property>
+      <obj_property name="ObjectShortName">bombsposition[4:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/gamesimulation/uut/bombsposition[4]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[4]</obj_property>
+         <obj_property name="ObjectShortName">bombsposition[4]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gamesimulation/uut/bombsposition[3]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">bombsposition[3]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gamesimulation/uut/bombsposition[2]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">bombsposition[2]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gamesimulation/uut/bombsposition[1]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">bombsposition[1]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gamesimulation/uut/bombsposition[0]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">bombsposition[0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/gamesimulation/uut/colision" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">colision</obj_property>
+      <obj_property name="ObjectShortName">colision</obj_property>
+   </wvobject>
+</wave_config>
