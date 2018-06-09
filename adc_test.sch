@@ -39,6 +39,7 @@
         <signal name="LCD_D(3:0)" />
         <signal name="SF_CE" />
         <signal name="btn0" />
+        <signal name="XLXN_34" />
         <port polarity="Input" name="Clk_50MHz" />
         <port polarity="Input" name="SPI_MISO" />
         <port polarity="Input" name="AMP_DOUT" />
@@ -107,9 +108,10 @@
             <line x2="0" y1="-96" y2="-96" x1="64" />
         </blockdef>
         <blockdef name="VGADisplay">
-            <timestamp>2018-5-24T10:49:18</timestamp>
-            <line x2="0" y1="32" y2="32" x1="64" />
+            <timestamp>2018-6-9T17:31:11</timestamp>
+            <rect width="352" x="64" y="-512" height="512" />
             <line x2="0" y1="-480" y2="-480" x1="64" />
+            <line x2="0" y1="-256" y2="-256" x1="64" />
             <rect width="64" x="0" y="-44" height="24" />
             <line x2="0" y1="-32" y2="-32" x1="64" />
             <line x2="480" y1="-480" y2="-480" x1="416" />
@@ -121,7 +123,6 @@
             <line x2="480" y1="-96" y2="-96" x1="416" />
             <rect width="64" x="416" y="-44" height="24" />
             <line x2="480" y1="-32" y2="-32" x1="416" />
-            <rect width="352" x="64" y="-512" height="640" />
         </blockdef>
         <block symbolname="ADC_Ctrl" name="XLXI_1">
             <blockpin signalname="Clk_50MHz" name="Clk_Sys" />
@@ -148,6 +149,7 @@
         </block>
         <block symbolname="VGADisplay" name="XLXI_6">
             <blockpin signalname="Clk_50MHz" name="Clk_50MHz" />
+            <blockpin signalname="btn0" name="RESUME_BTN" />
             <blockpin signalname="Line(13:0)" name="POSITION_IN(13:0)" />
             <blockpin signalname="VGA_R" name="VGA_R" />
             <blockpin signalname="VGA_G" name="VGA_G" />
@@ -157,7 +159,6 @@
             <blockpin signalname="Line(56)" name="AMP_WE" />
             <blockpin signalname="Line(60)" name="ADC_Start" />
             <blockpin signalname="XLXN_33(7:0)" name="AMP_DI(7:0)" />
-            <blockpin signalname="btn0" name="RESUME_BTN" />
         </block>
         <block symbolname="LCD1x64" name="XLXI_2">
             <blockpin signalname="Clk_50MHz" name="Clk_50MHz" />
@@ -271,8 +272,7 @@
         <iomarker fontsize="28" x="2640" y="368" name="VGA_B" orien="R0" />
         <iomarker fontsize="28" x="2640" y="432" name="VGA_HS" orien="R0" />
         <branch name="VGA_VS">
-            <wire x2="2624" y1="496" y2="496" x1="2608" />
-            <wire x2="2640" y1="496" y2="496" x1="2624" />
+            <wire x2="2640" y1="496" y2="496" x1="2608" />
         </branch>
         <iomarker fontsize="28" x="2640" y="496" name="VGA_VS" orien="R0" />
         <instance x="1744" y="1456" name="XLXI_2" orien="R0">
@@ -322,10 +322,9 @@
             <wire x2="2688" y1="624" y2="1536" x1="2688" />
         </branch>
         <branch name="XLXN_33(7:0)">
-            <wire x2="816" y1="432" y2="432" x1="800" />
-            <wire x2="832" y1="432" y2="432" x1="816" />
             <wire x2="800" y1="432" y2="1520" x1="800" />
             <wire x2="2672" y1="1520" y2="1520" x1="800" />
+            <wire x2="832" y1="432" y2="432" x1="800" />
             <wire x2="2672" y1="688" y2="688" x1="2608" />
             <wire x2="2672" y1="688" y2="1520" x1="2672" />
         </branch>
@@ -342,27 +341,25 @@
         <instance x="832" y="1168" name="XLXI_1" orien="R0">
         </instance>
         <branch name="VGA_HS">
-            <wire x2="2624" y1="432" y2="432" x1="2608" />
-            <wire x2="2640" y1="432" y2="432" x1="2624" />
+            <wire x2="2640" y1="432" y2="432" x1="2608" />
         </branch>
         <branch name="VGA_B">
-            <wire x2="2624" y1="368" y2="368" x1="2608" />
-            <wire x2="2640" y1="368" y2="368" x1="2624" />
+            <wire x2="2640" y1="368" y2="368" x1="2608" />
         </branch>
         <branch name="VGA_G">
-            <wire x2="2624" y1="304" y2="304" x1="2608" />
-            <wire x2="2640" y1="304" y2="304" x1="2624" />
+            <wire x2="2640" y1="304" y2="304" x1="2608" />
         </branch>
         <branch name="VGA_R">
-            <wire x2="2624" y1="240" y2="240" x1="2608" />
-            <wire x2="2640" y1="240" y2="240" x1="2624" />
+            <wire x2="2640" y1="240" y2="240" x1="2608" />
         </branch>
         <instance x="2128" y="720" name="XLXI_6" orien="R0">
         </instance>
         <branch name="btn0">
             <wire x2="1632" y1="1360" y2="1360" x1="480" />
             <wire x2="1632" y1="752" y2="1360" x1="1632" />
-            <wire x2="2128" y1="752" y2="752" x1="1632" />
+            <wire x2="2064" y1="752" y2="752" x1="1632" />
+            <wire x2="2064" y1="464" y2="752" x1="2064" />
+            <wire x2="2128" y1="464" y2="464" x1="2064" />
         </branch>
         <iomarker fontsize="28" x="480" y="1360" name="btn0" orien="R180" />
     </sheet>
