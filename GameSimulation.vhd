@@ -107,7 +107,25 @@ BEGIN
 
 		wait for Clk_50MHz_period*10;
 
-		-- insert stimulus here
+		wait for 1500 ms;
+		
+		POSITION_IN <= "01000000000000";
+		
+		wait for 500 ms;
+		
+		POSITION_IN <= (others => '0');
+		
+		wait for 1000 ms;
+		
+		POSITION_IN <= "11000000000000";
+		
+		wait for 100 ms;
+		
+		RESUME_BTN <= '1';
+		
+		wait for 10 ms;
+		
+		RESUME_BTN <= '0';
 
 		wait;
 	end process;
